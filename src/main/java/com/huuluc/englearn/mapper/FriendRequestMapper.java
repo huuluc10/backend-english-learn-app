@@ -11,11 +11,11 @@ public interface FriendRequestMapper {
     List<FriendRequest> findBySender(String sender);
 
     @Insert("INSERT INTO friend_request (sender, receiver, status) VALUES (#{sender}, #{receiver}, #{status})")
-    void insertFriendRequest(FriendRequest friendRequest);
+    int insertFriendRequest(FriendRequest friendRequest);
 
     @Update("UPDATE friend_request SET status = 1 WHERE sender = #{sender} AND receiver = #{receiver}")
-    void acceptFriendRequest(String sender, String receiver);
+    int acceptFriendRequest(String sender, String receiver);
 
     @Delete("DELETE FROM friend_request WHERE sender = #{sender} AND receiver = #{receiver}")
-    void deleteFriendRequest(String sender, String receiver);
+    int deleteFriendRequest(String sender, String receiver);
 }
