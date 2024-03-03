@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface ExamMapper {
     @Select("SELECT * FROM exam")
-    public void findAll();
+    List<Exam> findAll();
 
     @Select("SELECT * FROM exam WHERE exam_id = #{examId}")
-    List<Exam> findById(short examId);
+    Exam findById(short examId);
 }

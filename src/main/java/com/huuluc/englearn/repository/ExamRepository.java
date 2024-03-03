@@ -1,20 +1,23 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.entity.Exam;
 import com.huuluc.englearn.mapper.ExamMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class ExamRepository {
     private final ExamMapper examMapper;
 
-    public void findAll() {
-        examMapper.findAll();
+    public List<Exam> findAll() {
+        return examMapper.findAll();
     }
 
 
-    public void findById(short examId) {
-        examMapper.findById(examId);
+    public Exam findById(short examId) {
+        return examMapper.findById(examId);
     }
 }
