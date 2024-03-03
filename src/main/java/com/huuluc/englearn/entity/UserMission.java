@@ -14,5 +14,5 @@ import java.util.Date;
 public class UserMission {
     private String usernmae;
     private short missionId;
-    private Date date;
+    private Date dateDone;
 }
