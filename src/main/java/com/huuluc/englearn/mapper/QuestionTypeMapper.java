@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper
 public interface QuestionTypeMapper {
     @Select("SELECT * FROM question_type")
-    public List<QuestionType> findAll();
+    List<QuestionType> findAll();
 
     @Select("SELECT * FROM question_type WHERE question_type_id = #{questionTypeId}")
-    public QuestionType findById(short questionTypeId);
+    QuestionType findById(short questionTypeId);
 
 }

@@ -9,15 +9,15 @@ import java.util.List;
 @Mapper
 public interface LessonMapper {
     @Select("SELECT * FROM lesson")
-    public List<Lesson> findAll();
+    List<Lesson> findAll();
 
     @Select("SELECT * FROM lesson WHERE lesson_id = #{lessonId}")
-    public Lesson findById(short lessonId);
+    Lesson findById(short lessonId);
 
     @Select("SELECT * FROM lesson WHERE topic_id = #{topicId}")
-    public List<Lesson> findByTopicId(short topicId);
+    List<Lesson> findByTopicId(short topicId);
 
     @Select("SELECT * FROM lesson WHERE level_id = #{levelId}")
-    public List<Lesson> findByLevelId(short levelId);
+    List<Lesson> findByLevelId(short levelId);
 
 }
