@@ -14,6 +14,7 @@ import java.util.Date;
 public class CreateUserRequest {
     private String username;
     private String password;
+    private boolean gender;
     private String fullName;
     private Date dateOfBirth;
 }

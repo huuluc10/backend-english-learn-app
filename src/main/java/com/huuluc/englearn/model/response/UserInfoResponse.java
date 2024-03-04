@@ -14,6 +14,7 @@ import java.util.Date;
 public class UserInfoResponse {
     private String username;
     private String fullName;
+    private boolean gender;
     private Date dateOfBirth;
     private String email;
     private String urlAvatar;
@@ -24,6 +25,7 @@ public class UserInfoResponse {
     public UserInfoResponse(User user) {
         this.username = user.getUsername();
         this.fullName = user.getFullName();
+        this.gender = user.isGender();
         this.dateOfBirth = user.getDateOfBirth();
         this.email = user.getEmail();
         this.streak = user.getStreak();
