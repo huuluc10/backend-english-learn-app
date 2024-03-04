@@ -7,10 +7,11 @@ import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-    ResponseEntity<ResponseModel> getByUsername(String username);
+    ResponseEntity<ResponseModel> getByUsername(String username) throws IOException;
 
     User getByEmail(String email);
 

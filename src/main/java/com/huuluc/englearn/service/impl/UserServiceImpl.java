@@ -12,6 +12,7 @@ import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.repository.UserRepository;
 import com.huuluc.englearn.service.LevelService;
 import com.huuluc.englearn.service.MediaService;
+import com.huuluc.englearn.service.StorageService;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -28,14 +30,16 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final MediaService mediaService;
     private final LevelService levelService;
+    private final StorageService storageService;
 
     @Override
-    public ResponseEntity<ResponseModel> getByUsername(String username) {
+    public ResponseEntity<ResponseModel> getByUsername(String username) throws IOException {
         ResponseModel responseModel;
 
         User user = userRepository.getByUsername(username);
 
-        if (user != null) {
+        // Check if the user is found
+        if (user != null) { // If user is found
             // Get url avatar
             Media media = mediaService.getById(user.getAvatar());
             String avatarUrl = media.getUrl();
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
             responseModel = new ResponseModel("success", "User found", userInfoResponse);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
-        } else {
+        } else { // If user is not found
             responseModel = new ResponseModel("error", "User not found", null);
             return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
         }
@@ -88,10 +92,10 @@ public class UserServiceImpl implements UserService {
         ResponseModel responseModel;
 
         // Check if the response is successful
-        if (userRepository.insertUser(user) == 1) {
+        if (userRepository.insertUser(user) == 1) { // If user is created successfully
            responseModel = new ResponseModel("success", "User created successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
-        } else {
+        } else {  // If user is not created successfully
             responseModel = new ResponseModel("error", "User creation failed", null);
             return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }

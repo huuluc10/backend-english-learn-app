@@ -32,6 +32,8 @@ public class StorageServiceImpl implements StorageService {
             throw new StorageException("File upload location can not be Empty.");
         }
 
+//        properties.setLocation("data");
+
         this.rootLocation = Paths.get(properties.getLocation());
     }
 

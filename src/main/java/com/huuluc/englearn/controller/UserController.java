@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/getByUsername")
-    public User getByUsername(@RequestParam String username) {
+    public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username) throws IOException {
         return userService.getByUsername(username);
     }
 
@@ -46,9 +47,5 @@ public class UserController {
     public User getByEmail(String email) {
         return userService.getByEmail(email);
     }
-
-    @GetMapping("/getByUsernameAndPassword")
-    public User getByUsernameAndPassword(String username, String password) {
-        return userService.getByUsernameAndPassword(username, password);
-    }
+    
 }

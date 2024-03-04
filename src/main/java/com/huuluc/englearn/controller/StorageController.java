@@ -1,6 +1,5 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.exception.StorageFileNotFoundException;
 import com.huuluc.englearn.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -8,17 +7,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -58,5 +53,26 @@ public class StorageController {
         redirectAttributes.addFlashAttribute("filePath", filePath);
 
         return "redirect:/";
+    }
+
+    @PostMapping("/getfile")
+    public ResponseEntity<byte[]> getFile(@RequestParam String path) throws IOException {
+        Resource file = storageService.loadAsResource(path);
+
+        if (file == null)
+            return ResponseEntity.notFound().build();
+
+        String mimeType;
+
+        try {
+            mimeType = Files.probeContentType(Paths.get(file.getURI()));
+        } catch (IOException e) {
+            mimeType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(mimeType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
+                .body(FileUtils.readFileToByteArray(file.getFile()));
     }
 }
