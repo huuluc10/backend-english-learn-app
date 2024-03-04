@@ -1,6 +1,7 @@
 package com.huuluc.englearn.exception;
 
 import com.huuluc.englearn.model.response.ResponseModel;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleStorageFileNotFoundException(StorageFileNotFoundException ex) {
         ResponseModel responseModel = new ResponseModel("error",
                 "A error occur with storage file not found exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FriendRequestException.class)
+    public ResponseEntity<Object> handleFriendRequestException(FriendRequestException ex) {
+        ResponseModel responseModel = new ResponseModel("error",
+                "A error occur with friend request exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        ResponseModel responseModel = new ResponseModel("error",
+                "A error occur with not found exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
     }
 

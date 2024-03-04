@@ -1,5 +1,7 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.FriendRequestException;
+import com.huuluc.englearn.model.request.FriendRequiredRequest;
 import com.huuluc.englearn.service.FriendRequestService;
 import com.huuluc.englearn.service.impl.FriendRequestServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -12,23 +14,23 @@ public class FriendRequestController {
     private final FriendRequestService friendRequestService;
 
     @GetMapping("/{sender}")
-    public void findByUserSender(@PathVariable String sender) {
+    public void findByUserSender(@PathVariable String sender) throws FriendRequestException {
         friendRequestService.findByUserSender(sender);
     }
 
     @PostMapping("/")
-    public void insertFriendRequest(@RequestParam String sender, @RequestParam String receiver) {
-        friendRequestService.insertFriendRequest(sender, receiver);
+    public void insertFriendRequest(@RequestBody FriendRequiredRequest request) throws FriendRequestException {
+        friendRequestService.insertFriendRequest(request);
     }
 
     @PostMapping("/accept")
-    public void acceptFriendRequest(@RequestParam String sender, @RequestParam String receiver) {
-        friendRequestService.acceptFriendRequest(sender, receiver);
+    public void acceptFriendRequest(@RequestBody FriendRequiredRequest request) throws FriendRequestException {
+        friendRequestService.acceptFriendRequest(request);
     }
 
     @PostMapping("/delete")
-    public void deleteFriendRequest(@RequestParam String sender, @RequestParam String receiver) {
-        friendRequestService.deleteFriendRequest(sender, receiver);
+    public void deleteFriendRequest(@RequestBody FriendRequiredRequest request) throws FriendRequestException {
+        friendRequestService.deleteFriendRequest(request);
     }
 
 }
