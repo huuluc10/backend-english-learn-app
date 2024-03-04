@@ -1,10 +1,15 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.repository.UserRepository;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int createUser(CreateUserRequest request) {
+    public ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException {
         // Create a new user object
         User user = new User();
         user.setUsername(request.getUsername());
@@ -42,8 +47,15 @@ public class UserServiceImpl implements UserService {
         user.setStreak(0);
         user.setAvatar(1);
         user.setExperience(0);
+        ResponseModel responseModel;
 
-        return userRepository.insertUser(user);
+        if (userRepository.insertUser(user) == 1) {
+           responseModel = new ResponseModel("success", "User created successfully", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
+        } else {
+            responseModel = new ResponseModel("error", "User creation failed", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

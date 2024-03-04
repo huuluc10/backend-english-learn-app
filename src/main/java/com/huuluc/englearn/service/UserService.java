@@ -1,7 +1,10 @@
 package com.huuluc.englearn.service;
 
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ public interface UserService {
 
     User getByUsernameAndPassword(String username, String password);
 
-    int createUser(CreateUserRequest request);
+    ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException;
 
     int updateUser(User user);
 

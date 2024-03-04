@@ -1,9 +1,12 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public int createAccount(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<ResponseModel> createAccount(@RequestBody CreateUserRequest request) throws UserException {
         return userService.createUser(request);
     }
 

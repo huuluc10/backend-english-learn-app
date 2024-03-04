@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class UserRepository {
         return userMapper.findByUsernameAndPassword(username, password);
     }
 
-    public int insertUser(User user) {
+    public int insertUser(User user) throws UserException {
         return userMapper.insertUser(user);
     }
 
