@@ -10,4 +10,7 @@ import java.util.List;
 public interface RoleMapper {
     @Select("SELECT role_id, name FROM role")
     List<Role> findAll();
+
+    @Select("SELECT role_id, name FROM role WHERE role_id = #{roleId}")
+    Role findById(short roleId);
 }

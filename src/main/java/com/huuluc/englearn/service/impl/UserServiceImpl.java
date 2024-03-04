@@ -1,15 +1,17 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
+import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.repository.UserRepository;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +20,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
-    public User getByUsername(String username) {
-        return userRepository.getByUsername(username);
+    public UserDetails getByUsername(String username) {
+        User user = userRepository.getByUsername(username);
+        Role role = roleRepository.getByRoleId(user.getRoleId());
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(role.getName())
+                .build();
     }
 
     @Override
@@ -47,8 +56,10 @@ public class UserServiceImpl implements UserService {
         user.setStreak(0);
         user.setAvatar(1);
         user.setExperience(0);
+
         ResponseModel responseModel;
 
+        // Check if the response is successful
         if (userRepository.insertUser(user) == 1) {
            responseModel = new ResponseModel("success", "User created successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.CREATED);

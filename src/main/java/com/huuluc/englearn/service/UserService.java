@@ -5,11 +5,12 @@ import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
 public interface UserService {
-    User getByUsername(String username);
+    UserDetails getByUsername(String username);
 
     User getByEmail(String email);
 

@@ -15,4 +15,8 @@ public class RoleRepository {
     public List<Role> getAll() {
         return roleMapper.findAll();
     }
+
+    public Role getByRoleId(short roleId) {
+        return roleMapper.findById(roleId);
+    }
 }
