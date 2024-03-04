@@ -1,6 +1,7 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.repository.UserRepository;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int insertUser(User user) {
+    public int createUser(CreateUserRequest request) {
+        // Create a new user object
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setFullName(request.getFullName());
+        user.setDateOfBirth(request.getDateOfBirth());
+        user.setEmail(null);
+        user.setRoleId((short) 1);
+        user.setStreak(0);
+        user.setAvatar(1);
+        user.setExperience(0);
+
         return userRepository.insertUser(user);
     }
 

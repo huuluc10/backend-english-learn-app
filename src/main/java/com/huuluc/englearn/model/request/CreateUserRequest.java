@@ -1,4 +1,4 @@
-package com.huuluc.englearn.model;
+package com.huuluc.englearn.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,18 +7,13 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class CreateUserRequest {
     private String username;
+    private String password;
     private String fullName;
     private Date dateOfBirth;
-    private String email;
-    private String password;
-    private short roleId;
-    private int avatar;
-    private int streak;
-    private int experience;
 }

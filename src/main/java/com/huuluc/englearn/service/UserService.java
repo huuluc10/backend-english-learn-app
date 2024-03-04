@@ -1,6 +1,7 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.CreateUserRequest;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     User getByUsernameAndPassword(String username, String password);
 
-    int insertUser(User user);
+    int createUser(CreateUserRequest request);
 
     int updateUser(User user);
 

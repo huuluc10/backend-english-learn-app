@@ -1,6 +1,7 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public int insertUser(User user) {
-        return userService.insertUser(user);
+    public int createAccount(@RequestBody CreateUserRequest request) {
+        return userService.createUser(request);
     }
 
     @PostMapping("/update")
