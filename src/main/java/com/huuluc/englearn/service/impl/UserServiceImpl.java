@@ -1,12 +1,17 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.model.Level;
+import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
+import com.huuluc.englearn.model.response.UserInfoResponse;
 import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.repository.UserRepository;
+import com.huuluc.englearn.service.LevelService;
+import com.huuluc.englearn.service.MediaService;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +26,33 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final MediaService mediaService;
+    private final LevelService levelService;
 
     @Override
-    public UserDetails getByUsername(String username) {
-        return null;
+    public ResponseEntity<ResponseModel> getByUsername(String username) {
+        ResponseModel responseModel;
+
+        User user = userRepository.getByUsername(username);
+
+        if (user != null) {
+            // Get url avatar
+            Media media = mediaService.getById(user.getAvatar());
+            String avatarUrl = media.getUrl();
+
+            // Get Level
+            Level level = levelService.findByExp(user.getExperience());
+
+            UserInfoResponse userInfoResponse = new UserInfoResponse(user);
+            userInfoResponse.setUrlAvatar(avatarUrl);
+            userInfoResponse.setLevel(level.getLevelName());
+
+            responseModel = new ResponseModel("success", "User found", userInfoResponse);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            responseModel = new ResponseModel("error", "User not found", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override

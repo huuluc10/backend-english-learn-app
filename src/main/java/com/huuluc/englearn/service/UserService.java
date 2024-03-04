@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface UserService {
-    UserDetails getByUsername(String username);
+    ResponseEntity<ResponseModel> getByUsername(String username);
 
     User getByEmail(String email);
 

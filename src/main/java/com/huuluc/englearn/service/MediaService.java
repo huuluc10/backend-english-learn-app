@@ -7,7 +7,7 @@ import java.util.List;
 public interface MediaService {
     List<Media> getAll();
 
-    Media getById(short mediaId);
+    Media getById(int mediaId);
 
     Media getByName(String mediaName);
 }

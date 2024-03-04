@@ -19,7 +19,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public Media getById(short mediaId) {
+    public Media getById(int mediaId) {
         return mediaRepository.getById(mediaId);
     }
 

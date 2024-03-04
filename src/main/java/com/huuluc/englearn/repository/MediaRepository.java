@@ -16,7 +16,7 @@ public class MediaRepository {
         return mediaMapper.findAll();
     }
 
-    public Media getById(short mediaId) {
+    public Media getById(int mediaId) {
         return mediaMapper.findById(mediaId);
     }
 

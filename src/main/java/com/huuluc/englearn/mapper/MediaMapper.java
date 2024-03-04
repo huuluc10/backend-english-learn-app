@@ -12,7 +12,7 @@ public interface MediaMapper {
     List<Media> findAll();
 
     @Select("SELECT media_id, media_name, media_type_id, url FROM media WHERE media_id = #{mediaId}")
-    Media findById(short mediaId);
+    Media findById(int mediaId);
 
     @Select("SELECT media_id, media_name, media_type_id, url FROM media WHERE media_name = #{mediaName}")
     Media findByName(String mediaName);

@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Media {
-    private short mediaId;
+    private int mediaId;
     private String mediaName;
     private short mediaTypeId;
     private String url;
