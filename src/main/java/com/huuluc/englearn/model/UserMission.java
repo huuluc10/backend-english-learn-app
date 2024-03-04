@@ -1,17 +1,18 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MissionDaily {
+public class UserMission {
+    private String usernmae;
     private short missionId;
-    private String missionName;
-    private String missionContent;
-    private int missionExpereince;
+    private Date dateDone;
 }

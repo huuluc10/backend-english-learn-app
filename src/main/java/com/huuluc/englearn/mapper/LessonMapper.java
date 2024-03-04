@@ -1,6 +1,6 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.Lesson;
+import com.huuluc.englearn.model.Lesson;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

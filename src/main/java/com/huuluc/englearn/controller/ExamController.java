@@ -1,8 +1,7 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.Exam;
+import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.service.ExamService;
-import com.huuluc.englearn.service.impl.ExamServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

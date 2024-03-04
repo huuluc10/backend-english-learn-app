@@ -1,6 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.Question;
+import com.huuluc.englearn.model.Question;
 import com.huuluc.englearn.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

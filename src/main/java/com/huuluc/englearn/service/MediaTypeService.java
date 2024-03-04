@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.MediaType;
+import com.huuluc.englearn.model.MediaType;
 
 import java.util.List;
 

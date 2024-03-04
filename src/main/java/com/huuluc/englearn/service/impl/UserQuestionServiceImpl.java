@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.UserQuestion;
+import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.repository.UserQuestionRepository;
 import com.huuluc.englearn.service.UserQuestionService;
 import lombok.RequiredArgsConstructor;

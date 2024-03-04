@@ -1,6 +1,6 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.UserMission;
+import com.huuluc.englearn.model.UserMission;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

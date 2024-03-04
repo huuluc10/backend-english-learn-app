@@ -1,15 +1,15 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MediaType {
-    private short mediaTypeId;
-    private String mediaTypeName;
+public class UserLesson {
+    private String username;
+    private short lessonId;
 }

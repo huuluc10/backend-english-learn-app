@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.Role;
+import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.service.RoleService;
 import lombok.RequiredArgsConstructor;

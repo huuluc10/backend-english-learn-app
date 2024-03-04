@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.Lesson;
+import com.huuluc.englearn.model.Lesson;
 
 import java.util.List;
 

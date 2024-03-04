@@ -1,8 +1,7 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.Lesson;
+import com.huuluc.englearn.model.Lesson;
 import com.huuluc.englearn.service.LessonService;
-import com.huuluc.englearn.service.impl.LessonServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

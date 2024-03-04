@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.MissionDaily;
+import com.huuluc.englearn.model.MissionDaily;
 
 import java.util.List;
 

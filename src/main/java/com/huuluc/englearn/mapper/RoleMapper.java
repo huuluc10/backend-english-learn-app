@@ -1,6 +1,6 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.Role;
+import com.huuluc.englearn.model.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

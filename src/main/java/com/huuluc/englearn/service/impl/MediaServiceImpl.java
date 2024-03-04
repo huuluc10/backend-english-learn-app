@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.Media;
+import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.repository.MediaRepository;
 import com.huuluc.englearn.service.MediaService;
 import lombok.RequiredArgsConstructor;

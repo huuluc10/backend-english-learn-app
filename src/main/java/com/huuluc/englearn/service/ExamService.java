@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.Exam;
+import com.huuluc.englearn.model.Exam;
 
 import java.util.List;
 public interface ExamService {

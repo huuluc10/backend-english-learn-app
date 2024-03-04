@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.FriendRequest;
+import com.huuluc.englearn.model.FriendRequest;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Level {
-    private String levelId;
-    private String levelName;
-    private int experienceThreshold;
+public class FriendRequest {
+    private String sender;
+    private String receiver;
+    private short status;
 }

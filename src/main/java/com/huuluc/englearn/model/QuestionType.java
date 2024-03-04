@@ -1,4 +1,4 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

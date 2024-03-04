@@ -1,6 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.MissionDaily;
+import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.service.MissionDailyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

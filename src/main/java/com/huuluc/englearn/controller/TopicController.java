@@ -1,6 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.Topic;
+import com.huuluc.englearn.model.Topic;
 import com.huuluc.englearn.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

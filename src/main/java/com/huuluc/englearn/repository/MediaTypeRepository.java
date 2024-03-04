@@ -1,6 +1,6 @@
 package com.huuluc.englearn.repository;
 
-import com.huuluc.englearn.entity.MediaType;
+import com.huuluc.englearn.model.MediaType;
 import com.huuluc.englearn.mapper.MediaTypeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

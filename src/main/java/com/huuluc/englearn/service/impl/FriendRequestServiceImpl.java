@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.FriendRequest;
+import com.huuluc.englearn.model.FriendRequest;
 import com.huuluc.englearn.repository.FriendRequestRepository;
 import com.huuluc.englearn.service.FriendRequestService;
 import lombok.RequiredArgsConstructor;

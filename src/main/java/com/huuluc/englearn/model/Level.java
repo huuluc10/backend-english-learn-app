@@ -1,4 +1,4 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Media {
-    private short mediaId;
-    private String mediaName;
-    private short mediaTypeId;
-    private String url;
+public class Level {
+    private String levelId;
+    private String levelName;
+    private int experienceThreshold;
 }

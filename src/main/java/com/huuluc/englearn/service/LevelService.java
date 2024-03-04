@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.Level;
+import com.huuluc.englearn.model.Level;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.FriendRequest;
+import com.huuluc.englearn.model.FriendRequest;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

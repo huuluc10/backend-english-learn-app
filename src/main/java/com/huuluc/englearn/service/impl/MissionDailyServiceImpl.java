@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.MissionDaily;
+import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.repository.MissionDailyRepository;
 import com.huuluc.englearn.service.MissionDailyService;
 import lombok.RequiredArgsConstructor;

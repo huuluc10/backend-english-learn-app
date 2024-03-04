@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.Role;
+import com.huuluc.englearn.model.Role;
 
 import java.util.List;
 

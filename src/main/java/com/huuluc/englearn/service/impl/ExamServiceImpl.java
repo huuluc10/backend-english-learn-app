@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.entity.Exam;
+import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.repository.ExamRepository;
 import com.huuluc.englearn.service.ExamService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.entity.Media;
+import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.service.MediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

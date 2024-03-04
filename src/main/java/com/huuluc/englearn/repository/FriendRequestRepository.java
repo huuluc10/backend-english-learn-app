@@ -1,6 +1,6 @@
 package com.huuluc.englearn.repository;
 
-import com.huuluc.englearn.entity.FriendRequest;
+import com.huuluc.englearn.model.FriendRequest;
 import com.huuluc.englearn.mapper.FriendRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

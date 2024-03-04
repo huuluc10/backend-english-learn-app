@@ -1,4 +1,4 @@
-package com.huuluc.englearn.entity;
+package com.huuluc.englearn.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserLesson {
+public class UserQuestion {
     private String username;
-    private short lessonId;
+    private int questionId;
+    private int isCorrect;
 }

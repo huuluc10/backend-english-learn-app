@@ -1,6 +1,6 @@
 package com.huuluc.englearn.repository;
 
-import com.huuluc.englearn.entity.Topic;
+import com.huuluc.englearn.model.Topic;
 import com.huuluc.englearn.mapper.TopicMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

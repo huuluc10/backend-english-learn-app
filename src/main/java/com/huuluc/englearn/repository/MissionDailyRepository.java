@@ -1,6 +1,6 @@
 package com.huuluc.englearn.repository;
 
-import com.huuluc.englearn.entity.MissionDaily;
+import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.mapper.MissionDailyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
