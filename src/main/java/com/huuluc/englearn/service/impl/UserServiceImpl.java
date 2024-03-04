@@ -24,13 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails getByUsername(String username) {
-        User user = userRepository.getByUsername(username);
-        Role role = roleRepository.getByRoleId(user.getRoleId());
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(role.getName())
-                .build();
+        return null;
     }
 
     @Override
@@ -39,8 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByUsernameAndPassword(String username, String password) {
-        return userRepository.getByUsernameAndPassword(username, password);
+    public UserDetails getByUsernameAndPassword(String username, String password) {
+        User user = userRepository.getByUsername(username);
+        Role role = roleRepository.getByRoleId(user.getRoleId());
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(role.getName())
+                .build();
     }
 
     @Override

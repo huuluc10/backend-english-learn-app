@@ -14,7 +14,7 @@ public interface UserService {
 
     User getByEmail(String email);
 
-    User getByUsernameAndPassword(String username, String password);
+    UserDetails getByUsernameAndPassword(String username, String password);
 
     ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException;
 
