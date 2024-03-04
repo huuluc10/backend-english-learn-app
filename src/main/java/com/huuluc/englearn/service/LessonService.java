@@ -1,31 +1,15 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.entity.Lesson;
-import com.huuluc.englearn.repository.LessonRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class LessonService {
-    private final LessonRepository lessonRepository;
+public interface LessonService {
+    List<Lesson> findAll();
 
-    public List<Lesson> findAll() {
-        return lessonRepository.findAll();
-    }
+    Lesson findById(short lessonId);
 
-    public Lesson findById(short lessonId) {
-        return lessonRepository.findById(lessonId);
-    }
+    List<Lesson> findByTopicId(short topicId);
 
-    public List<Lesson> findByTopicId(short topicId) {
-        return lessonRepository.findByTopicId(topicId);
-    }
-
-    public List<Lesson> findByLevelId(short levelId) {
-        return lessonRepository.findByLevelId(levelId);
-    }
-
+    List<Lesson> findByLevelId(short levelId);
 }

@@ -1,42 +1,21 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.entity.User;
-import com.huuluc.englearn.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+public interface UserService {
+    User getByUsername(String username);
 
-    public User getByUsername(String username) {
-        return userRepository.getByUsername(username);
-    }
+    User getByEmail(String email);
 
-    public User getByEmail(String email) {
-        return userRepository.getByEmail(email);
-    }
+    User getByUsernameAndPassword(String username, String password);
 
-    public User getByUsernameAndPassword(String username, String password) {
-        return userRepository.getByUsernameAndPassword(username, password);
-    }
+    int insertUser(User user);
 
-    public int insertUser(User user) {
-        return userRepository.insertUser(user);
-    }
+    int updateUser(User user);
 
-    public int updateUser(User user) {
-        return userRepository.updateUser(user);
-    }
+    int deleteUser(String username);
 
-    public int deleteUser(String username) {
-        return userRepository.deleteUser(username);
-    }
-
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    List<User> findAll();
 }

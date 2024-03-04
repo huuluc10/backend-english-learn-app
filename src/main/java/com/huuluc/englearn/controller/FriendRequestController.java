@@ -1,6 +1,7 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.service.FriendRequestService;
+import com.huuluc.englearn.service.impl.FriendRequestServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

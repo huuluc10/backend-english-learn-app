@@ -14,12 +14,8 @@ public class UserMissionController {
     private final UserMissionService userMissionService;
 
     @GetMapping("/")
-    public List<UserMission> getByUserId(@RequestParam int userId) {
-        return userMissionService.getByUserId(userId);
+    public List<UserMission> getByUserId(@RequestParam short userId) {
+        return userMissionService.findByUserId(userId);
     }
 
-    @PostMapping("/")
-    public int add(@RequestParam String username, @RequestParam short missionId) {
-        return userMissionService.add(username, missionId);
-    }
 }
