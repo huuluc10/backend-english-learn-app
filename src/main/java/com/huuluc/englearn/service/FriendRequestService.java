@@ -1,19 +1,20 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.exception.FriendRequestException;
-import com.huuluc.englearn.model.FriendRequest;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import java.io.IOException;
 
 public interface FriendRequestService {
-    List<FriendRequest> findByUserSender(String sender) throws FriendRequestException;
-    List<FriendRequest> findByUserReceiver(String receiver) throws FriendRequestException;
-    List<FriendRequest> getListFriend(String username) throws FriendRequestException;
+    ResponseEntity<ResponseModel> findByUserSender(String sender) throws FriendRequestException, IOException;
+    ResponseEntity<ResponseModel> findByUserReceiver(String receiver) throws FriendRequestException, IOException;
+    ResponseEntity<ResponseModel> getListFriend(String username) throws FriendRequestException, IOException;
 
-    int insertFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
+    ResponseEntity<ResponseModel> insertFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
 
-    int acceptFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
+    ResponseEntity<ResponseModel> acceptFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
 
-    int deleteFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
+    ResponseEntity<ResponseModel> deleteFriendRequest(FriendRequiredRequest request) throws FriendRequestException;
 }

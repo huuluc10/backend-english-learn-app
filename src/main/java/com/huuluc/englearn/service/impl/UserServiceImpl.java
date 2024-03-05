@@ -6,6 +6,7 @@ import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.response.MainUserInfoResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
 import com.huuluc.englearn.repository.RoleRepository;
@@ -47,9 +48,9 @@ public class UserServiceImpl implements UserService {
             // Get Level
             Level level = levelService.findByExp(user.getExperience());
 
-            UserInfoResponse userInfoResponse = new UserInfoResponse(user);
+            MainUserInfoResponse userInfoResponse = new UserInfoResponse(user);
             userInfoResponse.setUrlAvatar(avatarUrl);
-            userInfoResponse.setLevel(level.getLevelName());
+            ((UserInfoResponse) userInfoResponse).setLevel(level.getLevelName());
 
             responseModel = new ResponseModel("success", "User found", userInfoResponse);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);

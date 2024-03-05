@@ -1,5 +1,6 @@
 package com.huuluc.englearn.exception;
 
+import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,49 +13,49 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ResponseModel> handleUserException(UserException e) {
-        ResponseModel responseModel = new ResponseModel("error",
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with user exception: " + e.getMessage(), null);
         return ResponseEntity.badRequest().body(responseModel);
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<Object> handleDuplicateKeyException(DuplicateKeyException ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleDuplicateKeyException(DuplicateKeyException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A record with the same key already exists. " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(StorageException.class)
-    public ResponseEntity<Object> handleStorageException(StorageException ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleStorageException(StorageException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with storage exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<Object> handleStorageFileNotFoundException(StorageFileNotFoundException ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleStorageFileNotFoundException(StorageFileNotFoundException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with storage file not found exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FriendRequestException.class)
-    public ResponseEntity<Object> handleFriendRequestException(FriendRequestException ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleFriendRequestException(FriendRequestException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with friend request exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleNotFoundException(NotFoundException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with not found exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception ex) {
-        ResponseModel responseModel = new ResponseModel("error",
+    public ResponseEntity<ResponseModel> handleException(Exception ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }

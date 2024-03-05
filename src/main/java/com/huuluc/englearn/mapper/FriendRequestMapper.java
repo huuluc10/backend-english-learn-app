@@ -23,6 +23,6 @@ public interface FriendRequestMapper {
     @Update("UPDATE friend_request SET status = 1 WHERE sender = #{sender} AND receiver = #{receiver}")
     int acceptFriendRequest(String sender, String receiver) throws FriendRequestException;
 
-    @Delete("DELETE FROM friend_request WHERE sender = #{sender} AND receiver = #{receiver}")
+    @Delete("DELETE FROM friend_request WHERE (sender = #{sender} AND receiver = #{receiver}) OR (sender = #{receiver} AND receiver = #{sender})")
     int deleteFriendRequest(String sender, String receiver) throws FriendRequestException;
 }
