@@ -6,6 +6,7 @@ import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -51,6 +52,20 @@ public class GlobalExceptionHandler {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with not found exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TopicException.class)
+    public ResponseEntity<ResponseModel> handleTopicException(TopicException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with topic exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BadSqlGrammarException.class)
+    public ResponseEntity<ResponseModel> handleBadSqlGrammarException(BadSqlGrammarException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with bad sql grammar exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
