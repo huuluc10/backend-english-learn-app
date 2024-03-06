@@ -1,6 +1,8 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.User;
+import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.model.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,21 +19,18 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password}")
     User findByUsernameAndPassword(String username, String password);
 
-    @Select("INSERT INTO user (username, fullName, dateOfBirth, email, password, roleId, avatar, streak, expereince) VALUES (#{username}, #{fullName}, #{dateOfBirth}, #{email}, #{password}, #{roleId}, #{avatar}, #{streak}, #{expereince})")
-    void insertUser(User user);
+    @Insert("INSERT INTO user (username, full_name, date_of_birth, email, password, role_id, avatar, streak, experience) VALUES (#{username}, #{fullName}, #{dateOfBirth}, #{email}, #{password}, #{roleId}, #{avatar}, #{streak}, #{experience})")
+    int insertUser(User user) throws UserException;
 
-    @Select("UPDATE user SET fullName = #{fullName}, dateOfBirth = #{dateOfBirth}, email = #{email}, password = #{password}, roleId = #{roleId}, avatar = #{avatar}, streak = #{streak}, expereince = #{expereince} WHERE username = #{username}")
-    void updateUser(User user);
+    @Select("UPDATE user SET fullName = #{fullName}, dateOfBirth = #{dateOfBirth}, email = #{email}, password = #{password}, roleId = #{roleId}, avatar = #{avatar}, streak = #{streak}, experience = #{experience} WHERE username = #{username}")
+    int updateUser(User user);
 
     @Select("DELETE FROM user WHERE username = #{username}")
-    void deleteUser(String username);
+    int deleteUser(String username);
 
     @Select("SELECT * FROM user")
     List<User> findAll();
 
     @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password} AND roleId = #{roleId}")
     User findByUsernameAndPasswordAndRoleId(String username, String password, String roleId);
-
-    @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password} AND roleId = #{roleId} AND streak = #{streak}")
-    User findByUsernameAndPasswordAndRoleIdAndStreak(String username, String password, String roleId, String streak);
 }

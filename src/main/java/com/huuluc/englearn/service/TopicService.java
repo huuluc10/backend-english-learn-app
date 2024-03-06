@@ -1,18 +1,12 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.Topic;
-import com.huuluc.englearn.repository.TopicRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.huuluc.englearn.exception.TopicException;
+import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+public interface TopicService {
+    ResponseEntity<ResponseModel> getAll(GetHistoryLearnRequest request) throws TopicException;
 
-@Service
-@RequiredArgsConstructor
-public class TopicService {
-    private final TopicRepository topicRepository;
-
-    public List<Topic> getAll() {
-        return topicRepository.getAll();
-    }
+    ResponseEntity<ResponseModel> getSuccessRate(GetHistoryLearnRequest request) throws TopicException;
 }

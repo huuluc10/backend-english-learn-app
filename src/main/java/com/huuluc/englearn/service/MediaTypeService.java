@@ -1,26 +1,14 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.entity.MediaType;
-import com.huuluc.englearn.repository.MediaTypeRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.huuluc.englearn.model.MediaType;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class MediaTypeService {
-    private final MediaTypeRepository mediaTypeRepository;
+public interface MediaTypeService {
+    List<MediaType> getAll();
 
-    public List<MediaType> getAll() {
-        return mediaTypeRepository.getAll();
-    }
+    MediaType getById(short mediaTypeId);
 
-    public MediaType getById(short mediaTypeId) {
-        return mediaTypeRepository.getById(mediaTypeId);
-    }
+    MediaType getByName(String mediaTypeName);
 
-    public MediaType getByName(String mediaTypeName) {
-        return mediaTypeRepository.getByName(mediaTypeName);
-    }
 }

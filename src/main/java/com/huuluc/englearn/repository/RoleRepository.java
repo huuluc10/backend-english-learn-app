@@ -1,6 +1,6 @@
 package com.huuluc.englearn.repository;
 
-import com.huuluc.englearn.entity.Role;
+import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.mapper.RoleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,5 +14,9 @@ public class RoleRepository {
 
     public List<Role> getAll() {
         return roleMapper.findAll();
+    }
+
+    public Role getByRoleId(short roleId) {
+        return roleMapper.findById(roleId);
     }
 }

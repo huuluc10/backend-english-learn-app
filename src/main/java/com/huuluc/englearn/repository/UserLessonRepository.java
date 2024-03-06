@@ -1,0 +1,18 @@
+package com.huuluc.englearn.repository;
+
+import com.huuluc.englearn.exception.UserLessonException;
+import com.huuluc.englearn.model.UserLesson;
+import com.huuluc.englearn.mapper.UserLessonMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+public class UserLessonRepository {
+    private final UserLessonMapper userLessonMapper;
+    public int insert(UserLesson userLesson) throws UserLessonException {
+        return userLessonMapper.insert(userLesson);
+    }
+}

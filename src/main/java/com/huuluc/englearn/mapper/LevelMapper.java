@@ -1,6 +1,6 @@
 package com.huuluc.englearn.mapper;
 
-import com.huuluc.englearn.entity.Level;
+import com.huuluc.englearn.model.Level;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -11,7 +11,7 @@ public interface LevelMapper {
     @Select("SELECT * FROM level")
     List<Level> findAll();
 
-    @Select("SELECT * FROM level WHERE levelId = #{levelId}")
+    @Select("SELECT * FROM level WHERE level_id = #{levelId}")
     Level findById(short levelId);
 
     @Select("SELECT * FROM level WHERE experience_threshold <= #{exp} ORDER BY experience_threshold DESC LIMIT 1")

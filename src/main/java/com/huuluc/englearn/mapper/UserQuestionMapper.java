@@ -1,7 +1,7 @@
 package com.huuluc.englearn.mapper;
 
 
-import com.huuluc.englearn.entity.UserQuestion;
+import com.huuluc.englearn.model.UserQuestion;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
