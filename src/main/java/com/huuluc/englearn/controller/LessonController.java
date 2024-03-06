@@ -1,14 +1,12 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.model.Lesson;
+import com.huuluc.englearn.exception.LessonException;
+import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.LessonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/lessons")
@@ -17,17 +15,17 @@ public class LessonController {
     private final LessonService lessonService;
 
     @GetMapping("/")
-    public List<Lesson> findAll() {
+    public ResponseEntity<ResponseModel> findAll() throws LessonException {
         return lessonService.findAll();
     }
 
     @GetMapping("/{lessonId}")
-    public Lesson findById(@PathVariable short lessonId) {
+    public ResponseEntity<ResponseModel> findById(@PathVariable short lessonId) throws LessonException {
         return lessonService.findById(lessonId);
     }
 
     @GetMapping("/topic/{topicId}")
-    public List<Lesson> findByTopicId(@PathVariable short topicId) {
-        return lessonService.findByTopicId(topicId);
+    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException {
+        return lessonService.findByTopicIdAndUsername(request);
     }
 }

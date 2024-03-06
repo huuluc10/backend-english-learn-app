@@ -1,15 +1,18 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.model.Lesson;
-
-import java.util.List;
+import com.huuluc.englearn.exception.LessonException;
+import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 public interface LessonService {
-    List<Lesson> findAll();
+    ResponseEntity<ResponseModel> findAll() throws LessonException;
 
-    Lesson findById(short lessonId);
+    ResponseEntity<ResponseModel> findById(short lessonId) throws LessonException;
 
-    List<Lesson> findByTopicId(short topicId);
+    ResponseEntity<ResponseModel> findByTopicId(short topicId) throws LessonException;
 
-    List<Lesson> findByLevelId(short levelId);
+    ResponseEntity<ResponseModel> findByLevelId(short levelId) throws LessonException;
+
+    ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException;
 }
