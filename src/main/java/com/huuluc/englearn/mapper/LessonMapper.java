@@ -1,6 +1,7 @@
 package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.model.Lesson;
+import com.huuluc.englearn.model.response.LessonResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -19,5 +20,11 @@ public interface LessonMapper {
 
     @Select("SELECT * FROM lesson WHERE level_id = #{levelId}")
     List<Lesson> findByLevelId(short levelId);
+
+    @Select("SELECT l.*, IF(ul.lesson_id IS NULL, 'No', 'Yes') AS completed\n" +
+            "FROM lesson l\n" +
+            "LEFT JOIN user_lesson ul ON l.lesson_id = ul.lesson_id AND ul.username = :username \n" +
+            "WHERE l.topic_id = :topicId")
+    List<LessonResponse> findByTopicIdAndUsername(String username, short topicId);
 
 }
