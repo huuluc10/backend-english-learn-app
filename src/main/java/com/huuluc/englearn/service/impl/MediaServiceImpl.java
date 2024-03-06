@@ -15,16 +15,16 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public List<Media> getAll() {
-        return mediaRepository.getAll();
+        return mediaRepository.findAll();
     }
 
     @Override
     public Media getById(int mediaId) {
-        return mediaRepository.getById(mediaId);
+        return mediaRepository.findById(mediaId);
     }
 
     @Override
     public Media getByName(String mediaName) {
-        return mediaRepository.getByName(mediaName);
+        return mediaRepository.findByName(mediaName);
     }
 }

@@ -12,6 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LessonResponse extends Lesson {
     private String completed;
+    private String contentURL;
+    private String levelName;
 
     public LessonResponse(Lesson lesson, String completed) {
         super(lesson.getLessonId(), lesson.getLessonName(), lesson.getTopicId(), lesson.getContent(), lesson.getLessonExperience(), lesson.getLevelId());

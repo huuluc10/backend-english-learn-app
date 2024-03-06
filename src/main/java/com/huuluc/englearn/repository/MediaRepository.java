@@ -12,15 +12,15 @@ import java.util.List;
 public class MediaRepository {
     private final MediaMapper mediaMapper;
 
-    public List<Media> getAll() {
+    public List<Media> findAll() {
         return mediaMapper.findAll();
     }
 
-    public Media getById(int mediaId) {
+    public Media findById(int mediaId) {
         return mediaMapper.findById(mediaId);
     }
 
-    public Media getByName(String mediaName) {
+    public Media findByName(String mediaName) {
         return mediaMapper.findByName(mediaName);
     }
 }

@@ -4,6 +4,7 @@ import com.huuluc.englearn.exception.LessonException;
 import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.LessonService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ public class LessonController {
         return lessonService.findById(lessonId);
     }
 
-    @GetMapping("/topic/{topicId}")
+//    @Operation(summary = "Get list lesson ", description = "Returns lesson and history learn of user")
+    @GetMapping("/topic")
     public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException {
         return lessonService.findByTopicIdAndUsername(request);
     }
