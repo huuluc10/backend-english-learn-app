@@ -33,10 +33,6 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    @PostMapping("/delete")
-    public int deleteUser(String username) {
-        return userService.deleteUser(username);
-    }
 
     @PostMapping("/getByUsername")
     public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username) throws IOException {

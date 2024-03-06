@@ -68,6 +68,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(UserLessonException.class)
+    public ResponseEntity<ResponseModel> handleUserLessonException(UserLessonException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with user lesson exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(BadSqlGrammarException.class)
     public ResponseEntity<ResponseModel> handleBadSqlGrammarException(BadSqlGrammarException ex) {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,

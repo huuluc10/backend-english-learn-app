@@ -28,4 +28,5 @@ public interface LessonMapper {
             "WHERE l.topic_id = #{topicId}")
     List<LessonResponse> findByTopicIdAndUsername(String username, short topicId) throws LessonException;
 
+
 }
