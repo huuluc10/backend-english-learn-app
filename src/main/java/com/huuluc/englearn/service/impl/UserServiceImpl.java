@@ -62,8 +62,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmail(String email) {
-        return userRepository.getByEmail(email);
+    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException{
+        User user = userRepository.getByEmail(email);
+        ResponseModel responseModel;
+
+        if (user != null) {
+            responseModel = new ResponseModel("success", "User found", user);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new UserException("User not found");
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@ public class UserRepository {
         return userMapper.findByUsername(username);
     }
 
-    public User getByEmail(String email) {
+    public User getByEmail(String email) throws UserException {
         return userMapper.findByEmail(email);
     }
 

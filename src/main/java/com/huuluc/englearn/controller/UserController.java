@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/getByEmail")
     @Operation(summary = "Get user information by email")
-    public User getByEmail(String email) {
+    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException {
         return userService.getByEmail(email);
     }
     

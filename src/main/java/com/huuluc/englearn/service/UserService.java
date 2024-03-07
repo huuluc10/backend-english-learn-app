@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserService {
     ResponseEntity<ResponseModel> getByUsername(String username) throws IOException;
 
-    User getByEmail(String email);
+    ResponseEntity<ResponseModel> getByEmail(String email) throws UserException;
 
     UserDetails getByUsernameAndPassword(String username, String password);
 

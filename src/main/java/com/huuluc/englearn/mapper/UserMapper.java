@@ -15,7 +15,7 @@ public interface UserMapper {
     User findByUsername(String username);
 
     @Select("SELECT * FROM user WHERE email = #{email}")
-    User findByEmail(String email);
+    User findByEmail(String email) throws UserException;
 
     @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password}")
     User findByUsernameAndPassword(String username, String password);
