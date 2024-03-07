@@ -3,6 +3,7 @@ package com.huuluc.englearn.repository;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.mapper.UserMapper;
+import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,8 +30,8 @@ public class UserRepository {
         return userMapper.insertUser(user);
     }
 
-    public int updateUser(User user) {
-        return userMapper.updateUser(user);
+    public int updateUser(UpdateInfoRequest request) throws UserException {
+        return userMapper.updateInfoUser(request);
     }
 
     public int deleteUser(String username) {

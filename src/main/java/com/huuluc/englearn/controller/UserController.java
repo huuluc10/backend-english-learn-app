@@ -3,6 +3,7 @@ package com.huuluc.englearn.controller;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +19,14 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/")
-    public List<User> findAll() {
-        return userService.findAll();
-    }
-
     @PostMapping("/")
     public ResponseEntity<ResponseModel> createAccount(@RequestBody CreateUserRequest request) throws UserException {
         return userService.createUser(request);
     }
 
     @PostMapping("/update")
-    public int updateUser(User user) {
-        return userService.updateUser(user);
+    public ResponseEntity<ResponseModel> updateInfo(@RequestBody UpdateInfoRequest request) throws UserException {
+        return userService.updateUser(request);
     }
 
 

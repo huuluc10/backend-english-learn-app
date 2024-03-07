@@ -6,6 +6,7 @@ import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.MainUserInfoResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
@@ -104,8 +105,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(User user) {
-        return userRepository.updateUser(user);
+    public ResponseEntity<ResponseModel> updateUser(UpdateInfoRequest request) throws UserException {
+        if (userRepository.updateUser(request) == 1) { // If user is updated successfully
+            ResponseModel responseModel = new ResponseModel("success", "User updated successfully", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new UserException("User update failed");
+        }
     }
 
     @Override

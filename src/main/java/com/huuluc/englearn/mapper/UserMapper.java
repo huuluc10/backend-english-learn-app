@@ -2,6 +2,7 @@ package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,8 +23,8 @@ public interface UserMapper {
     @Insert("INSERT INTO user (username, full_name, date_of_birth, email, password, role_id, avatar, streak, experience) VALUES (#{username}, #{fullName}, #{dateOfBirth}, #{email}, #{password}, #{roleId}, #{avatar}, #{streak}, #{experience})")
     int insertUser(User user) throws UserException;
 
-    @Select("UPDATE user SET fullName = #{fullName}, dateOfBirth = #{dateOfBirth}, email = #{email}, password = #{password}, roleId = #{roleId}, avatar = #{avatar}, streak = #{streak}, experience = #{experience} WHERE username = #{username}")
-    int updateUser(User user);
+    @Select("UPDATE user SET full_name = #{fullName}, date_of_birth = #{dateOfBirth}, gender = #{gender}, email = #{email} WHERE username = #{username}")
+    int updateInfoUser(UpdateInfoRequest request) throws UserException;
 
     @Select("DELETE FROM user WHERE username = #{username}")
     int deleteUser(String username);

@@ -3,6 +3,7 @@ package com.huuluc.englearn.service;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ public interface UserService {
 
     ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException;
 
-    int updateUser(User user);
+    ResponseEntity<ResponseModel> updateUser(UpdateInfoRequest request) throws UserException;
 
     int deleteUser(String username);
 
