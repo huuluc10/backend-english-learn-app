@@ -12,16 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/media")
-@Tag(name = "Media", description = "Media API")
-public class MediaController {
+@RequestMapping("/admin/v1/manage/media")
+@RequiredArgsConstructor
+@Tag(name = "Admin Manage Media", description = "Admin API Manage Media")
+public class AdminManageMediaController {
     private final MediaService mediaService;
+    private final MediaController mediaController;
+
+    @GetMapping("/")
+    @Operation(summary = "Get all media")
+    public List<Media> getAll() {
+        return mediaService.getAll();
+    }
 
     @GetMapping("/{mediaId}")
     @Operation(summary = "Get media by id")
     public Media getById(@PathVariable short mediaId) {
-        return mediaService.getById(mediaId);
+        return mediaController.getById(mediaId);
     }
 }
