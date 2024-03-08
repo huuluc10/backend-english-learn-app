@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/media-types")
+@RequestMapping("/admin/v1/manage/media-type")
 @RequiredArgsConstructor
-@Tag(name = "Media Type", description = "Media Type API")
-public class MediaTypeController {
+@Tag(name = "Admin Manage Media Type", description = "Admin API Manage Media Type")
+public class AdminManageMediaTypeController {
      private final MediaTypeService mediaTypeService;
 
      @GetMapping("/")
