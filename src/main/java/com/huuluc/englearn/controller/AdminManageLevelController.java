@@ -13,15 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin/v1/manage/level")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/level")
-@Tag(name = "Level", description = "Level API")
-public class LevelController {
+@Tag(name = "Admin Manage Level", description = "Admin API Manage Level")
+public class AdminManageLevelController {
     private final LevelService levelService;
 
-    @GetMapping("/exp/{exp}")
-    @Operation(summary = "Get level by exp")
-    public Level findByExp(@PathVariable int exp) {
-        return levelService.findByExp(exp);
+    @GetMapping("/")
+    @Operation(summary = "Get list level")
+    public List<Level> findAll() {
+        return levelService.findAll();
+    }
+
+    @GetMapping("/{levelId}")
+    @Operation(summary = "Get level by id")
+    public Level findById(@PathVariable short levelId) {
+        return levelService.findById(levelId);
     }
 }
