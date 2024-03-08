@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/user")
@@ -54,7 +56,7 @@ public class UserController {
 
     @PostMapping("/changePassword")
     @Operation(summary = "Change user password")
-    public ResponseEntity<ResponseModel> changePassword(@RequestBody ChangePasswordRequest request) throws UserException {
+    public ResponseEntity<ResponseModel> changePassword(@RequestBody ChangePasswordRequest request) throws UserException, SQLIntegrityConstraintViolationException {
         return userService.changePassword(request);
     }
 }

@@ -5,6 +5,7 @@ import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("admin/v1/manage/topic")
+@Tag(name = "Admin Manage Topic", description = "Admin Manage Topic API")
 public class AdminManageTopicController {
     private final TopicService topicService;
 

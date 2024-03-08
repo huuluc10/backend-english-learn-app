@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Mapper
@@ -41,6 +42,6 @@ public interface UserMapper {
     int updateAvatar(String username, int mediaId) throws UserException;
 
     @Update("UPDATE user SET password = #{newPassword} WHERE username = #{username}")
-    int changePassword(ChangePasswordRequest request) throws UserException;
+    int changePassword(ChangePasswordRequest request) throws UserException, SQLIntegrityConstraintViolationException;
 
 }

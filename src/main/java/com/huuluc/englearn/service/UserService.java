@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public interface UserService {
@@ -29,5 +30,5 @@ public interface UserService {
 
     ResponseEntity<ResponseModel> updateAvatar(String username, MultipartFile avatar) throws UserException, MediaException;
 
-    ResponseEntity<ResponseModel> changePassword(ChangePasswordRequest request) throws UserException;
+    ResponseEntity<ResponseModel> changePassword(ChangePasswordRequest request) throws UserException, SQLIntegrityConstraintViolationException;
 }

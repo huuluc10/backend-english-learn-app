@@ -8,6 +8,7 @@ import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Repository
@@ -43,7 +44,7 @@ public class UserRepository {
         return userMapper.updateAvatar(username, mediaId);
     }
 
-    public int changePassword(ChangePasswordRequest request) throws UserException {
+    public int changePassword(ChangePasswordRequest request) throws UserException, SQLIntegrityConstraintViolationException {
         return userMapper.changePassword(request);
     }
 
