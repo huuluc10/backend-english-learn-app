@@ -1,6 +1,8 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.service.StorageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
@@ -17,6 +19,8 @@ import java.nio.file.Paths;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/storage")
+@Tag(name = "Storage API")
 public class StorageController {
     private final StorageService storageService;
     @GetMapping("/")
@@ -41,19 +45,22 @@ public class StorageController {
                 .body(FileUtils.readFileToByteArray(file.getFile()));
     }
 
-    @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
-        storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-        //get file path file
-        String filePath = storageService.load(file.getOriginalFilename()).toString();
-        redirectAttributes.addFlashAttribute("filePath", filePath);
-
-        return "redirect:/";
-    }
+//    @PostMapping("/")
+//    @Operation(summary = "Upload file")
+//    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+//                                   RedirectAttributes redirectAttributes) {
+//
+//        String url = storageService.store(file);
+//
+//        if (url != null) {
+//            redirectAttributes.addFlashAttribute("message",
+//                    "You successfully uploaded " + file.getOriginalFilename() + "!");
+//            //get file path file
+//            String filePath = storageService.load(file.getOriginalFilename()).toString();
+//            redirectAttributes.addFlashAttribute("filePath", filePath);
+//        }
+//        return "redirect:/";
+//    }
 
     @PostMapping("/getfile")
     public ResponseEntity<byte[]> getFile(@RequestParam String path) throws IOException {

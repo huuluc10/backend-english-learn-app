@@ -34,16 +34,12 @@ public class UserRepository {
         return userMapper.updateInfoUser(request);
     }
 
-    public int deleteUser(String username) {
-        return userMapper.deleteUser(username);
-    }
-
-    public List<User> findAll() {
+    public List<User> findAll() throws UserException {
         return userMapper.findAll();
     }
 
-    public User getByUsernameAndPasswordAndRoleId(String username, String password, String roleId) {
-        return userMapper.findByUsernameAndPasswordAndRoleId(username, password, roleId);
+    public int updateAvatar(String username, int mediaId) throws UserException {
+        return userMapper.updateAvatar(username, mediaId);
     }
 
 }

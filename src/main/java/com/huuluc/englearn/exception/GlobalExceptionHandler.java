@@ -68,6 +68,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(MediaException.class)
+    public ResponseEntity<ResponseModel> handleMediaException(MediaException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with media exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(UserLessonException.class)
     public ResponseEntity<ResponseModel> handleUserLessonException(UserLessonException ex) {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,

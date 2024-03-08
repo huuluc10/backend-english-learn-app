@@ -1,5 +1,7 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.exception.MediaException;
+import com.huuluc.englearn.exception.StorageException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
     private final StorageService storageService;
 
     @Override
-    public ResponseEntity<ResponseModel> getByUsername(String username) throws IOException {
+    public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException {
         ResponseModel responseModel;
 
         User user = userRepository.getByUsername(username);
@@ -123,12 +126,63 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteUser(String username) {
-        return userRepository.deleteUser(username);
+    public ResponseEntity<ResponseModel> findAll() throws UserException {
+        List<User> userList = userRepository.findAll();
+
+        if (userList != null) {
+            ResponseModel responseModel = new ResponseModel("success", "User list found", userList);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new UserException("User list not found");
+        }
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public ResponseEntity<ResponseModel> updateAvatar(String username, MultipartFile avatar) throws UserException, StorageException, MediaException {
+
+        //check avatar is image extension
+        if (!avatar.getContentType().startsWith("image/")) {
+            throw new StorageException("File is not an image");
+        }
+
+        // replace the file name with the username and extension no change
+        String fileName = username + ".png";
+        // store the file in the storage
+        String url = storageService.store(avatar, "images/avatars/", fileName);
+
+        if (url != null) {
+            String mediaName = "Avatar + " + username;
+
+            // insert the new media
+            Media media = new Media();
+            media.setMediaTypeId((short) 1);
+            media.setMediaName(mediaName);
+            media.setUrl(url);
+
+            // check if the media is already in the database
+            if (mediaService.getByName(mediaName) == null) {
+                int result_save =  mediaService.save(media);
+
+                //check save media success
+                if (result_save == 0) {
+                    throw new MediaException("Save media failed");
+                } else {
+                    // update the user avatar
+                    Media newMedia = mediaService.getByName(mediaName);
+                    int result_update = userRepository.updateAvatar(username, newMedia.getMediaId());
+
+                    //check update avatar success
+                    if (result_update == 0) {
+                        throw new UserException("Update avatar failed");
+                    }
+                }
+            }
+
+
+            ResponseModel responseModel = new ResponseModel("success", "Avatar updated successfully", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new StorageException("Avatar upload failed");
+        }
     }
 }

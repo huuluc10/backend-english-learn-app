@@ -1,7 +1,7 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.UserException;
-import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
@@ -11,8 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,10 +32,16 @@ public class UserController {
         return userService.updateUser(request);
     }
 
+    @PostMapping("/updateAvatar")
+    @Operation(summary = "Update user avatar")
+    public ResponseEntity<ResponseModel> updateAvatar(@RequestParam String username, @RequestParam("file") MultipartFile avatar) throws UserException, MediaException {
+        return userService.updateAvatar(username, avatar);
+    }
+
 
     @PostMapping("/getByUsername")
     @Operation(summary = "Get user information by username")
-    public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username) throws IOException {
+    public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username) throws UserException {
         return userService.getByUsername(username);
     }
 

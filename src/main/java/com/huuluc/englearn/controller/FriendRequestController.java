@@ -1,6 +1,7 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.exception.FriendRequestException;
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.FriendRequestService;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,19 +18,19 @@ public class FriendRequestController {
 
     @GetMapping("/sender/{sender}")
     public ResponseEntity<ResponseModel> findByUserSender(@PathVariable String sender)
-            throws FriendRequestException, IOException {
+            throws FriendRequestException, UserException {
         return friendRequestService.findByUserSender(sender);
     }
 
     @GetMapping("/receiver/{receiver}")
     public ResponseEntity<ResponseModel> findByUserReceiver(@PathVariable String receiver)
-            throws FriendRequestException, IOException {
+            throws FriendRequestException, UserException {
         return friendRequestService.findByUserReceiver(receiver);
     }
 
     @GetMapping("/list/{username}")
     public ResponseEntity<ResponseModel> getListFriend(@PathVariable String username)
-            throws FriendRequestException, IOException {
+            throws FriendRequestException, UserException {
         return friendRequestService.getListFriend(username);
     }
 
