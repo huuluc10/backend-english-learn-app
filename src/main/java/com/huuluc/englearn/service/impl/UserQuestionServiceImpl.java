@@ -1,11 +1,15 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.UserQuestion;
+import com.huuluc.englearn.model.request.AnswerQuestionRequest;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.repository.UserQuestionRepository;
 import com.huuluc.englearn.service.UserQuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +40,19 @@ public class UserQuestionServiceImpl implements UserQuestionService {
     }
 
     @Override
-    public int countTodayQuestion(String username) throws QuestionException, UserQuestionException {
+    public int countTodayQuestion(String username) throws UserQuestionException {
         return userQuestionRepository.countTodayQuestion(username);
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> answerQuestion(AnswerQuestionRequest request) throws UserQuestionException {
+        int resultAnwer =  userQuestionRepository.insert(request);
+
+        if (resultAnwer == 0) {
+            throw new UserQuestionException("Answer question failed");
+        }
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                "Insert user question successfully", userQuestionRepository.insert(request));
+        return ResponseEntity.ok(responseModel);
     }
 }
