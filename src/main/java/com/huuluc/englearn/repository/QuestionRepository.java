@@ -13,11 +13,11 @@ import java.util.List;
 public class QuestionRepository {
     private final QuestionMapper questionMapper;
 
-    public List<Question> findById(short questionId) {
+    public List<Question> findById(short questionId) throws QuestionException {
         return questionMapper.findById(questionId);
     }
 
-    public List<Question> findByLessonId(short lessonId) {
+    public List<Question> findByLessonId(short lessonId) throws QuestionException {
         return questionMapper.findByLessonId(lessonId);
     }
 

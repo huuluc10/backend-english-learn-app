@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
     @Select("SELECT * FROM question WHERE question_id = #{questionId}")
-    List<Question> findById(short questionId);
+    List<Question> findById(short questionId) throws QuestionException;
 
     @Select("SELECT * FROM question WHERE lesson_id = #{lessonId} AND belong_to = 'LESSON'")
-    List<Question> findByLessonId(short lessonId);
+    List<Question> findByLessonId(short lessonId) throws QuestionException;
 
     @Select("SELECT * FROM question WHERE exam_id = #{exam_id} AND belong_to = 'EXAM'")
     List<Question> findByExamId(short exam_id) throws QuestionException;
