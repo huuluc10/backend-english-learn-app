@@ -13,9 +13,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/exam")
-@Tag(name = "Exam", description = "Exam API")
-public class ExamController {
+@RequestMapping("/admin/v1/manage/exam")
+@Tag(name = "Admin Manage Exam", description = "Admin API Manage Exam")
+public class AdminManageExamController {
     private final ExamService examService;
 
+    @GetMapping("/")
+    @Operation(summary = "Get all exams")
+    public List<Exam> getAll() {
+        return examService.getAll();
+    }
+
+
+    @GetMapping("/id")
+    @Operation(summary = "Get exam by id")
+    public Exam getById(short examId) {
+        return examService.getById(examId);
+    }
 }

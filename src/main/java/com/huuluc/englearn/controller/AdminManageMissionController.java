@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/v1/manage/mission")
 @Tag(name = "Admin Manage Mission", description = "Admin API Manage Mission")
-public class AdminManageMission {
+public class AdminManageMissionController {
     private final MissionDailyService missionDailyService;
 
     @GetMapping("/")
