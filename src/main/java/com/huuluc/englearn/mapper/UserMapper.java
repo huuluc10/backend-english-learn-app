@@ -2,6 +2,7 @@ package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,4 +39,8 @@ public interface UserMapper {
 
     @Update("UPDATE user SET avatar = #{mediaId} WHERE username = #{username}")
     int updateAvatar(String username, int mediaId) throws UserException;
+
+    @Update("UPDATE user SET password = #{newPassword} WHERE username = #{username}")
+    int changePassword(ChangePasswordRequest request) throws UserException;
+
 }

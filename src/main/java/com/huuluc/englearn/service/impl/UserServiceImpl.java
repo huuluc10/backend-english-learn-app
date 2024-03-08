@@ -1,5 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.StorageException;
 import com.huuluc.englearn.exception.UserException;
@@ -7,6 +8,7 @@ import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.MainUserInfoResponse;
@@ -56,11 +58,10 @@ public class UserServiceImpl implements UserService {
             userInfoResponse.setUrlAvatar(avatarUrl);
             ((UserInfoResponse) userInfoResponse).setLevel(level.getLevelName());
 
-            responseModel = new ResponseModel("success", "User found", userInfoResponse);
-            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+            responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User found", userInfoResponse);
+            return ResponseEntity.ok(responseModel);
         } else { // If user is not found
-            responseModel = new ResponseModel("error", "User not found", null);
-            return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
+            throw new UserException("User not found");
         }
     }
 
@@ -161,18 +162,18 @@ public class UserServiceImpl implements UserService {
 
             // check if the media is already in the database
             if (mediaService.getByName(mediaName) == null) {
-                int result_save =  mediaService.save(media);
+                int resultSave =  mediaService.save(media);
 
                 //check save media success
-                if (result_save == 0) {
+                if (resultSave == 0) {
                     throw new MediaException("Save media failed");
                 } else {
                     // update the user avatar
                     Media newMedia = mediaService.getByName(mediaName);
-                    int result_update = userRepository.updateAvatar(username, newMedia.getMediaId());
+                    int resultUpdate = userRepository.updateAvatar(username, newMedia.getMediaId());
 
                     //check update avatar success
-                    if (result_update == 0) {
+                    if (resultUpdate == 0) {
                         throw new UserException("Update avatar failed");
                     }
                 }
@@ -183,6 +184,25 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new StorageException("Avatar upload failed");
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> changePassword(ChangePasswordRequest request) throws UserException {
+        //get password of user
+        User user = userRepository.getByUsername(request.getUsername());
+        String password = user.getPassword();
+
+        //checl oldpassword is equal with password of user
+        if (password.equals(request.getOldPassword())) {
+            if (userRepository.changePassword(request) == 1) { // If password is changed successfully
+                ResponseModel responseModel = new ResponseModel("success", "Password changed successfully", null);
+                return new ResponseEntity<>(responseModel, HttpStatus.OK);
+            } else {
+                throw new UserException("Password change failed");
+            }
+        } else {    // If old password is incorrect
+            throw new UserException("Old password is incorrect");
         }
     }
 }

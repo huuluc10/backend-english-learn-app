@@ -2,6 +2,7 @@ package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
@@ -50,5 +51,10 @@ public class UserController {
     public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException {
         return userService.getByEmail(email);
     }
-    
+
+    @PostMapping("/changePassword")
+    @Operation(summary = "Change user password")
+    public ResponseEntity<ResponseModel> changePassword(@RequestBody ChangePasswordRequest request) throws UserException {
+        return userService.changePassword(request);
+    }
 }
