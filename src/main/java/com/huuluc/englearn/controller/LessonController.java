@@ -17,18 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class LessonController {
     private final LessonService lessonService;
 
-    @GetMapping("/")
-    @Operation(summary = "Get list lesson")
-    public ResponseEntity<ResponseModel> findAll() throws LessonException {
-        return lessonService.findAll();
-    }
-
-    @GetMapping("/{lessonId}")
-    @Operation(summary = "Get lesson by id")
-    public ResponseEntity<ResponseModel> findById(@PathVariable short lessonId) throws LessonException {
-        return lessonService.findById(lessonId);
-    }
-
     @GetMapping("/topic")
     @Operation(summary = "Get list lesson by topic")
     public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException {
