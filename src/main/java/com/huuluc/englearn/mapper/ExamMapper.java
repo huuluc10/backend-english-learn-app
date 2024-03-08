@@ -13,4 +13,7 @@ public interface ExamMapper {
 
     @Select("SELECT * FROM exam WHERE exam_id = #{examId}")
     Exam findById(short examId);
+
+    @Select("SELECT * FROM exam WHERE topic_id = #{topicId}")
+    List<Exam> findByTopicId(short topicId);
 }

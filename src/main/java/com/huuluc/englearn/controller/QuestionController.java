@@ -1,10 +1,13 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.Question;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +35,7 @@ public class QuestionController {
 
     @GetMapping("/findByExamId")
     @Operation(summary = "Find question by exam id")
-    public List<Question> findByExamId(short examId) {
+    public ResponseEntity<ResponseModel> findByExamId(short examId) throws QuestionException {
         return questionService.findByExamId(examId);
     }
 }

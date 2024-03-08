@@ -1,7 +1,11 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.constants.MessageStringResponse;
+import com.huuluc.englearn.exception.QuestionException;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.huuluc.englearn.model.Question;
 import com.huuluc.englearn.repository.QuestionRepository;
@@ -24,8 +28,10 @@ public class QuestionServiceImpl implements QuestionService {
     }
     @Override
 
-    public List<Question> findByExamId(short exam_id) {
-        return questionRepository.findByExamId(exam_id);
+    public ResponseEntity<ResponseModel> findByExamId(short exam_id) throws QuestionException {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                "Get all questions by exam id", questionRepository.findByExamId(exam_id));
+        return ResponseEntity.ok(responseModel);
     }
 
 }

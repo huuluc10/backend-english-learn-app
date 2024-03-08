@@ -1,5 +1,6 @@
 package com.huuluc.englearn.mapper;
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -15,5 +16,5 @@ public interface QuestionMapper {
     List<Question> findByLessonId(short lessonId);
 
     @Select("SELECT * FROM question WHERE exam_id = #{exam_id} AND belong_to = 'EXAM'")
-    List<Question> findByExamId(short exam_id);
+    List<Question> findByExamId(short exam_id) throws QuestionException;
 }

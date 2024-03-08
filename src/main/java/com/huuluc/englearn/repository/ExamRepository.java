@@ -20,4 +20,8 @@ public class ExamRepository {
     public Exam findById(short examId) {
         return examMapper.findById(examId);
     }
+
+    public List<Exam> findByTopicId(short topicId) {
+        return examMapper.findByTopicId(topicId);
+    }
 }

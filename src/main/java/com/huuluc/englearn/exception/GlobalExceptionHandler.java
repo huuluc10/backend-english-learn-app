@@ -113,6 +113,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ExamException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleExamException(ExamException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with exam exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BadSqlGrammarException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ResponseModel> handleBadSqlGrammarException(BadSqlGrammarException ex) {

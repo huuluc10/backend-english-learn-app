@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.Question;
 import com.huuluc.englearn.mapper.QuestionMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class QuestionRepository {
         return questionMapper.findByLessonId(lessonId);
     }
 
-    public List<Question> findByExamId(short exam_id) {
+    public List<Question> findByExamId(short exam_id) throws QuestionException {
         return questionMapper.findByExamId(exam_id);
     }
 }
