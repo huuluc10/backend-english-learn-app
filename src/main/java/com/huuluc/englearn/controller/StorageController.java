@@ -20,10 +20,11 @@ import java.nio.file.Paths;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/storage")
-@Tag(name = "Storage API")
+@Tag(name = "Storage", description = "Storage API")
 public class StorageController {
     private final StorageService storageService;
     @GetMapping("/")
+    @Operation(summary = "Serve file")
     public ResponseEntity<byte[]> serveFile() throws IOException {
         String filename = "images/launcher/logo.png";
         Resource file = storageService.loadAsResource(filename);
@@ -63,6 +64,7 @@ public class StorageController {
 //    }
 
     @PostMapping("/getfile")
+    @Operation(summary = "Get file")
     public ResponseEntity<byte[]> getFile(@RequestParam String path) throws IOException {
         Resource file = storageService.loadAsResource(path);
 
