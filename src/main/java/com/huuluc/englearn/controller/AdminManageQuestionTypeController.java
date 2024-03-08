@@ -14,9 +14,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/question-type")
+@RequestMapping("/admin/v1/manage/question-type")
 @Tag(name = "Question Type", description = "Question Type API")
-public class QuestionTypeController {
+public class AdminManageQuestionTypeController {
     private final QuestionTypeService questionTypeService;
 
     @GetMapping("/")
