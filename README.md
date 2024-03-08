@@ -54,5 +54,3 @@ For any questions, issues, or suggestions related to this project, please feel f
 
 - GitHub: [huuluc10](https://github.com/huuluc10)
 - Email: lucnguyenhuu91@gmail.com
-
-Please replace `lucnguyenhuu91@gmail.com` with your actual email address.
