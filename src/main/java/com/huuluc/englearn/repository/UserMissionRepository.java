@@ -13,11 +13,11 @@ import java.util.List;
 public class UserMissionRepository {
     private final UserMissionMapper userMissionMapper;
 
-    public List<UserMission> getByUserId(String username) {
+    public List<UserMission> getByUserId(String username) throws UserMissionException {
         return userMissionMapper.findByUsername(username);
     }
 
-    public int insert(String username, short missionId) {
+    public int insert(String username, short missionId) throws UserMissionException {
         return userMissionMapper.insert(username, missionId);
     }
 

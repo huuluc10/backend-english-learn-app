@@ -1,6 +1,8 @@
 package com.huuluc.englearn.service;
 
+import com.huuluc.englearn.exception.LevelException;
 import com.huuluc.englearn.exception.MediaException;
+import com.huuluc.englearn.exception.RoleException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
@@ -16,11 +18,11 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 public interface UserService {
-    ResponseEntity<ResponseModel> getByUsername(String username) throws UserException;
+    ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException;
 
     ResponseEntity<ResponseModel> getByEmail(String email) throws UserException;
 
-    UserDetails getByUsernameAndPassword(String username, String password);
+    UserDetails getByUsernameAndPassword(String username, String password) throws RoleException;
 
     ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException;
 

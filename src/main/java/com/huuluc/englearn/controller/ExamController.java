@@ -1,5 +1,6 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.ExamException;
 import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.ExamService;
@@ -23,7 +24,7 @@ public class ExamController {
 
     @GetMapping("/")
     @Operation(summary = "Get all exams by topic")
-    public ResponseEntity<ResponseModel> getAllExamsByTopic(@RequestParam short topicId) {
+    public ResponseEntity<ResponseModel> getAllExamsByTopic(@RequestParam short topicId) throws ExamException {
         return examService.getExamByTopicId(topicId);
     }
 }

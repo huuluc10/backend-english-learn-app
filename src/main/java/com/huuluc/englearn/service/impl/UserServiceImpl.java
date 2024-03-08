@@ -1,9 +1,7 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.constants.MessageStringResponse;
-import com.huuluc.englearn.exception.MediaException;
-import com.huuluc.englearn.exception.StorageException;
-import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final StorageService storageService;
 
     @Override
-    public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException {
+    public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException {
         ResponseModel responseModel;
 
         User user = userRepository.getByUsername(username);
@@ -49,11 +47,11 @@ public class UserServiceImpl implements UserService {
         // Check if the user is found
         if (user != null) { // If user is found
             // Get url avatar
-            Media media = mediaService.getById(user.getAvatar());
+            Media media = (Media) mediaService.getById(user.getAvatar()).getBody().getData();
             String avatarUrl = media.getUrl();
 
             // Get Level
-            Level level = levelService.findByExp(user.getExperience());
+            Level level = (Level) levelService.findByExp(user.getExperience()).getBody().getData();
 
             MainUserInfoResponse userInfoResponse = new UserInfoResponse(user);
             userInfoResponse.setUrlAvatar(avatarUrl);
@@ -80,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails getByUsernameAndPassword(String username, String password) {
+    public UserDetails getByUsernameAndPassword(String username, String password) throws RoleException {
         User user = userRepository.getByUsername(username);
         Role role = roleRepository.getByRoleId(user.getRoleId());
         return org.springframework.security.core.userdetails.User.builder()

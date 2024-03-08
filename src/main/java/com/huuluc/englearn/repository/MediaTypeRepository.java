@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.MediaTypeException;
 import com.huuluc.englearn.model.MediaType;
 import com.huuluc.englearn.mapper.MediaTypeMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +19,12 @@ public class MediaTypeRepository {
         this.mediaTypeMapper = mediaTypeMapper;
     }
 
-    public List<MediaType> getAll() {
+    public List<MediaType> getAll() throws MediaTypeException {
         return mediaTypeMapper.findAll();
     }
 
-    public MediaType getById(short mediaTypeId) {
+    public MediaType getById(short mediaTypeId) throws MediaTypeException {
         return mediaTypeMapper.findById(mediaTypeId);
-    }
-
-    public MediaType getByName(String mediaTypeName) {
-        return mediaTypeMapper.findByName(mediaTypeName);
     }
 
 }

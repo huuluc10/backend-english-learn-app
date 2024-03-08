@@ -1,10 +1,13 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.MissionDailyException;
 import com.huuluc.englearn.model.MissionDaily;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.MissionDailyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +23,7 @@ public class AdminManageMissionController {
 
     @GetMapping("/")
     @Operation(summary = "Get all mission dailies")
-    public List<MissionDaily> getAll() {
+    public ResponseEntity<ResponseModel> getAll() throws MissionDailyException {
         return missionDailyService.getAll();
     }
 }

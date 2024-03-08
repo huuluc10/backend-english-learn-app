@@ -1,6 +1,8 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.exception.LessonException;
+import com.huuluc.englearn.exception.LevelException;
+import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.LessonService;
@@ -19,7 +21,7 @@ public class LessonController {
 
     @GetMapping("/topic")
     @Operation(summary = "Get list lesson by topic")
-    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException {
+    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException, MediaException, LevelException {
         return lessonService.findByTopicIdAndUsername(request);
     }
 }

@@ -1,8 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.exception.QuestionException;
-import com.huuluc.englearn.exception.UserLessonException;
-import com.huuluc.englearn.exception.UserMissionException;
+import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.MissionDailyService;
@@ -26,7 +24,7 @@ public class MissionDailyController {
     @GetMapping("/")
     @Operation(summary = "Get mission daily by user id")
     public ResponseEntity<ResponseModel> getMissionDailyByUserId(String username) throws UserMissionException,
-            UserLessonException, QuestionException {
+            UserLessonException, QuestionException, MissionDailyException, UserQuestionException {
         return missionDailyService.getMissionDailyByUserId(username);
     }
 }

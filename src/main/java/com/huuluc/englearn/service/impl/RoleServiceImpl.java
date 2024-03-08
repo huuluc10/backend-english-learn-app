@@ -1,5 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.exception.RoleException;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.service.RoleService;
@@ -14,7 +15,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public List<Role> getAll() {
+    public List<Role> getAll() throws RoleException {
         return roleRepository.getAll();
     }
 }

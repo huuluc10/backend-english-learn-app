@@ -2,6 +2,8 @@ package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.exception.FriendRequestException;
+import com.huuluc.englearn.exception.LevelException;
+import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.FriendRequest;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
@@ -25,7 +27,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<ResponseModel> findByUserSender(String sender) throws FriendRequestException, UserException {
+    public ResponseEntity<ResponseModel> findByUserSender(String sender) throws FriendRequestException, UserException, MediaException, LevelException {
         List<FriendRequest> list = friendRequestRepository.findByUserSender(sender);
 
         //get list user with username in list
@@ -45,7 +47,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> findByUserReceiver(String receiver) throws FriendRequestException, UserException {
+    public ResponseEntity<ResponseModel> findByUserReceiver(String receiver) throws FriendRequestException, UserException, MediaException, LevelException {
         List<FriendRequest> list = friendRequestRepository.findByUserReceiver(receiver);
 
         //get list user with username in list
@@ -66,7 +68,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> getListFriend(String username) throws FriendRequestException, UserException {
+    public ResponseEntity<ResponseModel> getListFriend(String username) throws FriendRequestException, UserException, MediaException, LevelException {
         List<FriendRequest> list = friendRequestRepository.getListFriendRequest(username);
 
         //get list user with username in list

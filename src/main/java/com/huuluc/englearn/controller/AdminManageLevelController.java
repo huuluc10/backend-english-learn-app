@@ -1,5 +1,6 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.LevelException;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.service.LevelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,13 +22,13 @@ public class AdminManageLevelController {
 
     @GetMapping("/")
     @Operation(summary = "Get list level")
-    public List<Level> findAll() {
+    public List<Level> findAll() throws LevelException {
         return levelService.findAll();
     }
 
     @GetMapping("/{levelId}")
     @Operation(summary = "Get level by id")
-    public Level findById(@PathVariable short levelId) {
+    public Level findById(@PathVariable short levelId) throws LevelException {
         return levelService.findById(levelId);
     }
 }
