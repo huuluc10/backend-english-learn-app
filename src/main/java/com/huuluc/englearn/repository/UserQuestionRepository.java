@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.mapper.UserQuestionMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,9 @@ public class UserQuestionRepository {
 
     public List<UserQuestion> findByUserIdAndQuestionIdAndIsCorrect(short userId, short questionId, boolean isCorrect) {
         return userQuestionMapper.findByUserIdAndQuestionIdAndIsCorrect(userId, questionId, isCorrect);
+    }
+
+    public int countTodayQuestion(String username) throws QuestionException {
+        return userQuestionMapper.countTodayQuestion(username);
     }
 }

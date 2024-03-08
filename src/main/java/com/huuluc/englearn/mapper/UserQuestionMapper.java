@@ -1,6 +1,7 @@
 package com.huuluc.englearn.mapper;
 
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.UserQuestion;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -20,5 +21,8 @@ public interface UserQuestionMapper {
 
     @Select("SELECT * FROM user_question WHERE user_id = #{userId} AND question_id = #{questionId} AND is_correct = #{isCorrect}")
     List<UserQuestion> findByUserIdAndQuestionIdAndIsCorrect(short userId, short questionId, boolean isCorrect);
+
+    @Select("SELECT COUNT(*) FROM user_question WHERE DATE(date_done) = DATE(CURDATE()) AND username = #{username}")
+    int countTodayQuestion(String username) throws QuestionException;
 
 }

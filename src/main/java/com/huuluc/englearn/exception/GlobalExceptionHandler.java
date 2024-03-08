@@ -82,6 +82,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler(QuestionException.class)
+    public ResponseEntity<ResponseModel> handleQuestionException(QuestionException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with question exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(UserMissionException.class)
+    public ResponseEntity<ResponseModel> handleUserMissionException(UserMissionException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with user mission exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(BadSqlGrammarException.class)
     public ResponseEntity<ResponseModel> handleBadSqlGrammarException(BadSqlGrammarException ex) {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,

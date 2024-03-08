@@ -15,4 +15,8 @@ public class UserLessonRepository {
     public int insert(UserLesson userLesson) throws UserLessonException {
         return userLessonMapper.insert(userLesson);
     }
+
+    public int countLessonLearnedToday(String username) throws UserLessonException {
+        return userLessonMapper.countLessonLearnedToday(username);
+    }
 }

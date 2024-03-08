@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -13,4 +15,5 @@ public class UserQuestion {
     private String username;
     private int questionId;
     private int isCorrect;
+    private Date dateDone;
 }

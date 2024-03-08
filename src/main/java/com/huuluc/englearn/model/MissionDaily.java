@@ -13,5 +13,5 @@ public class MissionDaily {
     private short missionId;
     private String missionName;
     private String missionContent;
-    private int missionExpereince;
+    private int missionExperience;
 }

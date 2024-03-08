@@ -1,5 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.repository.UserQuestionRepository;
 import com.huuluc.englearn.service.UserQuestionService;
@@ -31,5 +32,10 @@ public class UserQuestionServiceImpl implements UserQuestionService {
     @Override
     public List<UserQuestion> findByUserIdAndQuestionIdAndIsCorrect(short userId, short questionId, boolean isCorrect) {
         return userQuestionRepository.findByUserIdAndQuestionIdAndIsCorrect(userId, questionId, isCorrect);
+    }
+
+    @Override
+    public int countTodayQuestion(String username) throws QuestionException {
+        return userQuestionRepository.countTodayQuestion(username);
     }
 }

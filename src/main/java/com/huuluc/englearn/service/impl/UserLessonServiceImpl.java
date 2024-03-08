@@ -29,4 +29,9 @@ public class UserLessonServiceImpl implements UserLessonService {
        responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Insert user lesson successfully", null);
         return ResponseEntity.ok(responseModel);
     }
+
+    @Override
+    public int countLessonLearnedToday(String username) throws UserLessonException {
+        return userLessonRepository.countLessonLearnedToday(username);
+    }
 }

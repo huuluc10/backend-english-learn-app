@@ -12,4 +12,7 @@ import java.util.List;
 public interface UserLessonMapper {
     @Insert("INSERT INTO user_lesson (lesson_id, username) VALUES (#{lessonId}, #{username})")
     int insert(UserLesson userLesson) throws UserLessonException;
+
+    @Select("SELECT COUNT(*) FROM user_lesson WHERE DATE(date_learned) = DATE(CURDATE()) AND username = #{username}")
+    int countLessonLearnedToday(String username) throws UserLessonException;
 }
