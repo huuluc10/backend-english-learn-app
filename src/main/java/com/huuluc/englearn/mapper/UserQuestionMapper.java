@@ -4,6 +4,8 @@ package com.huuluc.englearn.mapper;
 import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.UserQuestion;
+import com.huuluc.englearn.model.request.AnswerQuestionRequest;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,5 +27,8 @@ public interface UserQuestionMapper {
 
     @Select("SELECT COUNT(*) FROM user_question WHERE DATE(date_done) = DATE(CURDATE()) AND username = #{username}")
     int countTodayQuestion(String username) throws UserQuestionException;
+
+    @Insert("INSERT INTO user_question (username, question_id, is_correct) VALUES (#{username}, #{questionId}, #{isCorrect}")
+    int insert(AnswerQuestionRequest request) throws UserQuestionException;
 
 }

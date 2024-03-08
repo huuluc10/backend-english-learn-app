@@ -4,6 +4,7 @@ import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.mapper.UserQuestionMapper;
+import com.huuluc.englearn.model.request.AnswerQuestionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,9 @@ public class UserQuestionRepository {
 
     public int countTodayQuestion(String username) throws UserQuestionException {
         return userQuestionMapper.countTodayQuestion(username);
+    }
+
+    public int insert(AnswerQuestionRequest request) throws UserQuestionException {
+        return userQuestionMapper.insert(request);
     }
 }
