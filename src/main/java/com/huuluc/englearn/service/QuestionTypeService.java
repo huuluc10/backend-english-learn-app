@@ -1,11 +1,14 @@
 package com.huuluc.englearn.service;
 
+import com.huuluc.englearn.exception.QuestionTypeException;
 import com.huuluc.englearn.model.QuestionType;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface QuestionTypeService {
-    QuestionType findById(short questionTypeId);
+    ResponseEntity<ResponseModel> findById(short questionTypeId) throws QuestionTypeException;
 
-    public List<QuestionType> findAll();
+    ResponseEntity<ResponseModel> findAll() throws QuestionTypeException;
 }

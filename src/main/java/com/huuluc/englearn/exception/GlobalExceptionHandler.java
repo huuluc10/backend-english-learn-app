@@ -113,6 +113,54 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ExamException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleExamException(ExamException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with exam exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LevelException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleLevelException(LevelException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with level exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissionDailyException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleMissionDailyException(MissionDailyException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with mission daily exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(QuestionTypeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleQuestionTypeException(QuestionTypeException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with question type exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RoleException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleRoleException(RoleException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with role exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserQuestionException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleUserQuestionException(UserQuestionException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with user question exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BadSqlGrammarException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ResponseModel> handleBadSqlGrammarException(BadSqlGrammarException ex) {
@@ -123,7 +171,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-public ResponseEntity<ResponseModel> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+    public ResponseEntity<ResponseModel> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with sql integrity constraint violation exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);

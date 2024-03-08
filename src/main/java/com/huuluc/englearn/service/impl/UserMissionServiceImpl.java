@@ -15,7 +15,7 @@ public class UserMissionServiceImpl implements UserMissionService {
     private final UserMissionRepository userMissionRepository;
 
     @Override
-    public List<UserMission> findByUserId(String username) {
+    public List<UserMission> findByUserId(String username) throws UserMissionException {
         return userMissionRepository.getByUserId(username);
     }
 

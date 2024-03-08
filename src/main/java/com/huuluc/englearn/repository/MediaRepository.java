@@ -14,11 +14,11 @@ import java.util.List;
 public class MediaRepository {
     private final MediaMapper mediaMapper;
 
-    public List<Media> findAll() {
+    public List<Media> findAll() throws MediaException {
         return mediaMapper.findAll();
     }
 
-    public Media findById(int mediaId) {
+    public Media findById(int mediaId) throws MediaException {
         return mediaMapper.findById(mediaId);
     }
 

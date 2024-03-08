@@ -1,13 +1,16 @@
 package com.huuluc.englearn.service;
 
+import com.huuluc.englearn.exception.LevelException;
 import com.huuluc.englearn.model.Level;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface LevelService {
-    List<Level> findAll();
+    List<Level> findAll() throws LevelException;
 
-    public Level findById(short level);
+    Level findById(short level) throws LevelException;
 
-    public Level findByExp(int exp);
+    ResponseEntity<ResponseModel> findByExp(int exp) throws LevelException;
 }

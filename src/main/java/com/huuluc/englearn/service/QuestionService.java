@@ -1,13 +1,13 @@
 package com.huuluc.englearn.service;
 
-import com.huuluc.englearn.model.Question;
-
-import java.util.List;
+import com.huuluc.englearn.exception.QuestionException;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 public interface QuestionService {
-    List<Question> findById(short questionId);
+    ResponseEntity<ResponseModel> findById(short questionId) throws QuestionException;
 
-    public List<Question> findByLessonId(short lessonId);
+    ResponseEntity<ResponseModel> findByLessonId(short lessonId) throws QuestionException;
 
-    public List<Question> findByExamId(short exam_id);
+    ResponseEntity<ResponseModel> findByExamId(short exam_id) throws QuestionException;
 }

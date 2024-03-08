@@ -2,13 +2,15 @@ package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.model.Media;
+import com.huuluc.englearn.model.response.ResponseModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface MediaService {
-    List<Media> getAll();
+    ResponseEntity<ResponseModel> getAll() throws MediaException;
 
-    Media getById(int mediaId);
+    ResponseEntity<ResponseModel> getById(int mediaId) throws MediaException;
 
     Media getByName(String mediaName) throws MediaException;
 

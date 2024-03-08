@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.RoleException;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.mapper.RoleMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,11 @@ import java.util.List;
 public class RoleRepository {
     private final RoleMapper roleMapper;
 
-    public List<Role> getAll() {
+    public List<Role> getAll() throws RoleException {
         return roleMapper.findAll();
     }
 
-    public Role getByRoleId(short roleId) {
+    public Role getByRoleId(short roleId) throws RoleException {
         return roleMapper.findById(roleId);
     }
 }

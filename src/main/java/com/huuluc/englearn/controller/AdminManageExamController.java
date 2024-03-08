@@ -1,15 +1,16 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.ExamException;
 import com.huuluc.englearn.model.Exam;
+import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.ExamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,14 +21,14 @@ public class AdminManageExamController {
 
     @GetMapping("/")
     @Operation(summary = "Get all exams")
-    public List<Exam> getAll() {
+    public ResponseEntity<ResponseModel> getAll() throws ExamException {
         return examService.getAll();
     }
 
 
     @GetMapping("/id")
     @Operation(summary = "Get exam by id")
-    public Exam getById(short examId) {
+    public ResponseEntity<ResponseModel> getById(short examId) throws ExamException {
         return examService.getById(examId);
     }
 }

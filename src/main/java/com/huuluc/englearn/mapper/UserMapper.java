@@ -29,14 +29,8 @@ public interface UserMapper {
     @Select("UPDATE user SET full_name = #{fullName}, date_of_birth = #{dateOfBirth}, gender = #{gender}, email = #{email} WHERE username = #{username}")
     int updateInfoUser(UpdateInfoRequest request) throws UserException;
 
-    @Select("DELETE FROM user WHERE username = #{username}")
-    int deleteUser(String username);
-
     @Select("SELECT * FROM user")
     List<User> findAll() throws UserException;
-
-    @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password} AND roleId = #{roleId}")
-    User findByUsernameAndPasswordAndRoleId(String username, String password, String roleId);
 
     @Update("UPDATE user SET avatar = #{mediaId} WHERE username = #{username}")
     int updateAvatar(String username, int mediaId) throws UserException;

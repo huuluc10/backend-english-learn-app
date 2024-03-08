@@ -1,5 +1,6 @@
 package com.huuluc.englearn.repository;
 
+import com.huuluc.englearn.exception.MissionDailyException;
 import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.mapper.MissionDailyMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 public class MissionDailyRepository {
     private final MissionDailyMapper missionDailyMapper;
 
-    public List<MissionDaily> getAll() {
+    public List<MissionDaily> getAll() throws MissionDailyException {
         return missionDailyMapper.findAll();
     }
 }

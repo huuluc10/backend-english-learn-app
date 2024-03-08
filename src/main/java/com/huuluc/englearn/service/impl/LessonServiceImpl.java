@@ -2,6 +2,8 @@ package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.exception.LessonException;
+import com.huuluc.englearn.exception.LevelException;
+import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.model.Lesson;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
@@ -62,7 +64,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException {
+    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(GetHistoryLearnRequest request) throws LessonException, MediaException, LevelException {
         String username = request.getUsername();
         short topicId = request.getTopicId();
 
