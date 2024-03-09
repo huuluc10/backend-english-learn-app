@@ -4,7 +4,6 @@ import com.huuluc.englearn.exception.LevelException;
 import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.RoleException;
 import com.huuluc.englearn.exception.UserException;
-import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
@@ -13,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
 
 public interface UserService {
     ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException;

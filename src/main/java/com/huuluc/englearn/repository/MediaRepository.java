@@ -1,7 +1,6 @@
 package com.huuluc.englearn.repository;
 
 import com.huuluc.englearn.exception.MediaException;
-import com.huuluc.englearn.exception.StorageException;
 import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.mapper.MediaMapper;
 import lombok.RequiredArgsConstructor;

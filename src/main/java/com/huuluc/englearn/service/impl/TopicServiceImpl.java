@@ -23,8 +23,6 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public ResponseEntity<ResponseModel> getAll(GetHistoryLearnRequest request) throws TopicException {
-        String username = request.getUsername();
-
         List<Topic> topics = topicRepository.getAll();
         List<HistoryLearnTopicResponse> historyLearnTopicResponses = new ArrayList<>();
 

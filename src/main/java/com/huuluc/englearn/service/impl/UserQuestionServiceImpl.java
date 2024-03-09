@@ -1,7 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.constants.MessageStringResponse;
-import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.model.request.AnswerQuestionRequest;

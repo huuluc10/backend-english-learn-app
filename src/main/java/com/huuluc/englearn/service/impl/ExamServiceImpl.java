@@ -2,7 +2,6 @@ package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.constants.MessageStringResponse;
 import com.huuluc.englearn.exception.ExamException;
-import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.repository.ExamRepository;
 import com.huuluc.englearn.service.ExamService;
