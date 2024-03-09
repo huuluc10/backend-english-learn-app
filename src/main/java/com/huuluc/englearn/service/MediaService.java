@@ -5,8 +5,6 @@ import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public interface MediaService {
     ResponseEntity<ResponseModel> getAll() throws MediaException;
 

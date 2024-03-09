@@ -24,8 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
@@ -70,7 +68,7 @@ public class UserServiceImpl implements UserService {
         ResponseModel responseModel;
 
         if (user != null) {
-            responseModel = new ResponseModel("success", "User found", user);
+            responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User found", user);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new UserException("User not found");
@@ -107,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
         // Check if the response is successful
         if (userRepository.insertUser(user) == 1) { // If user is created successfully
-           responseModel = new ResponseModel("success", "User created successfully", null);
+           responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User created successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
         } else {  // If user is not created successfully
             responseModel = new ResponseModel("error", "User creation failed", null);
@@ -118,7 +116,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<ResponseModel> updateUser(UpdateInfoRequest request) throws UserException {
         if (userRepository.updateUser(request) == 1) { // If user is updated successfully
-            ResponseModel responseModel = new ResponseModel("success", "User updated successfully", null);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User updated successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new UserException("User update failed");
@@ -130,7 +128,7 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findAll();
 
         if (userList != null) {
-            ResponseModel responseModel = new ResponseModel("success", "User list found", userList);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User list found", userList);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new UserException("User list not found");
@@ -179,7 +177,7 @@ public class UserServiceImpl implements UserService {
             }
 
 
-            ResponseModel responseModel = new ResponseModel("success", "Avatar updated successfully", null);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Avatar updated successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new StorageException("Avatar upload failed");
@@ -195,7 +193,7 @@ public class UserServiceImpl implements UserService {
         //checl oldpassword is equal with password of user
         if (password.equals(request.getOldPassword())) {
             if (userRepository.changePassword(request) == 1) { // If password is changed successfully
-                ResponseModel responseModel = new ResponseModel("success", "Password changed successfully", null);
+                ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Password changed successfully", null);
                 return new ResponseEntity<>(responseModel, HttpStatus.OK);
             } else {
                 throw new UserException("Password change failed");

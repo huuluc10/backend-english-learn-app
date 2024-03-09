@@ -21,7 +21,7 @@ public class QuestionRepository {
         return questionMapper.findByLessonId(lessonId);
     }
 
-    public List<Question> findByExamId(short exam_id) throws QuestionException {
-        return questionMapper.findByExamId(exam_id);
+    public List<Question> findByExamId(short examId) throws QuestionException {
+        return questionMapper.findByExamId(examId);
     }
 }

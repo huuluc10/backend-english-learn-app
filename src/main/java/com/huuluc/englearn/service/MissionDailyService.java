@@ -1,11 +1,8 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.exception.*;
-import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public interface MissionDailyService {
     ResponseEntity<ResponseModel> getAll() throws MissionDailyException;

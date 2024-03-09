@@ -3,9 +3,7 @@ package com.huuluc.englearn.repository;
 import com.huuluc.englearn.exception.QuestionTypeException;
 import com.huuluc.englearn.model.QuestionType;
 import com.huuluc.englearn.mapper.QuestionTypeMapper;
-import com.huuluc.englearn.model.response.ResponseModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

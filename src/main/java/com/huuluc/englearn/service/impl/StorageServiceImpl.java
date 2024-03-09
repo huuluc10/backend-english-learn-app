@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -28,7 +26,7 @@ public class StorageServiceImpl implements StorageService {
     @Autowired
     public StorageServiceImpl(StorageProperties properties) {
 
-        if(properties.getLocation().trim().length() == 0){
+        if(properties.getLocation().trim().isEmpty()){
             throw new StorageException("File upload location can not be Empty.");
         }
 

@@ -8,8 +8,6 @@ import com.huuluc.englearn.model.request.FriendRequiredRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
-
 public interface FriendRequestService {
     ResponseEntity<ResponseModel> findByUserSender(String sender) throws FriendRequestException, UserException, MediaException, LevelException;
     ResponseEntity<ResponseModel> findByUserReceiver(String receiver) throws FriendRequestException, UserException, MediaException, LevelException;

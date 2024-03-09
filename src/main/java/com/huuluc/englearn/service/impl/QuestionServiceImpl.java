@@ -17,14 +17,14 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public ResponseEntity<ResponseModel> findById(short questionId) throws QuestionException {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get all questions by exam id", questionRepository.findById(questionId));
+                "Get all questions by question id", questionRepository.findById(questionId));
         return ResponseEntity.ok(responseModel);
     }
     @Override
 
     public ResponseEntity<ResponseModel> findByLessonId(short lessonId) throws QuestionException {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get all questions by exam id", questionRepository.findByLessonId(lessonId));
+                "Get all questions by lesson id", questionRepository.findByLessonId(lessonId));
         return ResponseEntity.ok(responseModel);
     }
     @Override
