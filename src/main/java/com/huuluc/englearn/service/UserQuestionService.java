@@ -21,4 +21,6 @@ public interface UserQuestionService {
     int countTodayQuestion(String username) throws QuestionException, UserQuestionException;
 
     ResponseEntity<ResponseModel> answerQuestion(AnswerQuestionRequest request) throws UserQuestionException;
+
+    ResponseEntity<ResponseModel> getQuestionByExamId(String username, short examId) throws UserQuestionException;
 }

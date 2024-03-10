@@ -3,11 +3,11 @@ package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
+import com.huuluc.englearn.model.Question;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.model.request.AnswerQuestionRequest;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.StatementType;
 
 import java.util.List;
 
@@ -30,5 +30,4 @@ public interface UserQuestionMapper {
 
     @Insert("INSERT INTO user_question (username, question_id, is_correct) VALUES (#{username}, #{questionId}, #{isCorrect}")
     int insert(AnswerQuestionRequest request) throws UserQuestionException;
-
 }

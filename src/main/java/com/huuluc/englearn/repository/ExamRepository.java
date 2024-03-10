@@ -1,6 +1,7 @@
 package com.huuluc.englearn.repository;
 
 import com.huuluc.englearn.exception.ExamException;
+import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.mapper.ExamMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,9 @@ public class ExamRepository {
 
     public List<Exam> findByTopicId(short topicId) throws ExamException {
         return examMapper.findByTopicId(topicId);
+    }
+
+    public int getExamResult(String username, short examId) throws ExamException {
+        return examMapper.getExamResult(username, examId);
     }
 }

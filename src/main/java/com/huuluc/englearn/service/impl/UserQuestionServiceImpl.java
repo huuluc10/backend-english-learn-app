@@ -54,4 +54,9 @@ public class UserQuestionServiceImpl implements UserQuestionService {
                 "Insert user question successfully", userQuestionRepository.insert(request));
         return ResponseEntity.ok(responseModel);
     }
+
+    @Override
+    public ResponseEntity<ResponseModel> getQuestionByExamId(String username, short examId) throws UserQuestionException {
+        return null;
+    }
 }

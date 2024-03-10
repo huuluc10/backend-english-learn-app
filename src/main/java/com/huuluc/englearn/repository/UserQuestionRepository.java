@@ -37,4 +37,5 @@ public class UserQuestionRepository {
     public int insert(AnswerQuestionRequest request) throws UserQuestionException {
         return userQuestionMapper.insert(request);
     }
+
 }
