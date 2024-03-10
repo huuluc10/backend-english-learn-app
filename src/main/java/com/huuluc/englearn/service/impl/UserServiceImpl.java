@@ -45,11 +45,23 @@ public class UserServiceImpl implements UserService {
         // Check if the user is found
         if (user != null) { // If user is found
             // Get url avatar
-            Media media = (Media) mediaService.getById(user.getAvatar()).getBody().getData();
+            ResponseModel responseModelAvatar = mediaService.getById(user.getAvatar()).getBody();
+            Media media;
+
+            if (responseModelAvatar == null) {
+                throw new MediaException("Avatar not found");
+            } else {
+                media = (Media) responseModelAvatar.getData();
+            }
             String avatarUrl = media.getUrl();
 
             // Get Level
-            Level level = (Level) levelService.findByExp(user.getExperience()).getBody().getData();
+            ResponseModel responseModelLevel = levelService.findByExp(user.getExperience()).getBody();
+
+            if (responseModelLevel == null) {
+                throw new LevelException("Level not found");
+            }
+            Level level = (Level) responseModelLevel.getData();
 
             MainUserInfoResponse userInfoResponse = new UserInfoResponse(user);
             userInfoResponse.setUrlAvatar(avatarUrl);
