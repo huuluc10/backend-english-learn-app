@@ -48,4 +48,7 @@ public class UserRepository {
         return userMapper.changePassword(request);
     }
 
+    public int updateStreak(String username, int streak) throws UserException {
+        return userMapper.updateStreak(username, streak);
+    }
 }

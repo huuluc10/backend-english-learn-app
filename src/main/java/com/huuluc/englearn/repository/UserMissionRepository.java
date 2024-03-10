@@ -25,4 +25,12 @@ public class UserMissionRepository {
         return userMissionMapper.findTodayMissionByUsername(username, missionId);
     }
 
+    public int checkActiveMissionLastDay(String username) throws UserMissionException {
+        return userMissionMapper.checkActiveMissionLastDay(username);
+    }
+
+    public int checkActiveMissionToday(String username) throws UserMissionException {
+        return userMissionMapper.checkActiveMissionToday(username);
+    }
+
 }

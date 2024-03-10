@@ -7,5 +7,5 @@ import org.springframework.http.ResponseEntity;
 public interface MissionDailyService {
     ResponseEntity<ResponseModel> getAll() throws MissionDailyException;
 
-    ResponseEntity<ResponseModel> getMissionDailyByUserId(String username) throws UserMissionException, UserLessonException, QuestionException, MissionDailyException, UserQuestionException;
+    ResponseEntity<ResponseModel> getMissionDailyByUserId(String username) throws UserMissionException, UserLessonException, QuestionException, MissionDailyException, UserQuestionException, UserException;
 }

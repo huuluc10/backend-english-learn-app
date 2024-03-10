@@ -38,4 +38,7 @@ public interface UserMapper {
     @Update("UPDATE user SET password = #{newPassword} WHERE username = #{username}")
     int changePassword(ChangePasswordRequest request) throws UserException, SQLIntegrityConstraintViolationException;
 
+    @Update("UPDATE user SET streak = #{streak} WHERE username = #{username}")
+    int updateStreak(String username, int streak) throws UserException;
+
 }

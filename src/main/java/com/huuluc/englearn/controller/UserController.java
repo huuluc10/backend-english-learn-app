@@ -3,6 +3,7 @@ package com.huuluc.englearn.controller;
 import com.huuluc.englearn.exception.LevelException;
 import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.exception.UserMissionException;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
@@ -53,14 +54,14 @@ public class UserController {
     @PostMapping("/getByUsername")
     @Operation(summary = "Get user information by username")
     public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username)
-            throws UserException, MediaException, LevelException {
+            throws UserException, MediaException, LevelException, UserMissionException {
         log.info("Get user information by username {}", username);
         return userService.getByUsername(username);
     }
 
     @GetMapping("/getByEmail")
     @Operation(summary = "Get user information by email")
-    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException {
+    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException, UserMissionException {
         log.info("Get user information by email {}", email);
         return userService.getByEmail(email);
     }

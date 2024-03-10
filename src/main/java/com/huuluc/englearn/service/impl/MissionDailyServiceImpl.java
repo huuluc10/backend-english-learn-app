@@ -5,16 +5,13 @@ import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.MissionDaily;
 import com.huuluc.englearn.model.response.MissionResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
-import com.huuluc.englearn.repository.MissionDailyRepository;
-import com.huuluc.englearn.repository.UserLessonRepository;
-import com.huuluc.englearn.repository.UserMissionRepository;
-import com.huuluc.englearn.repository.UserQuestionRepository;
+import com.huuluc.englearn.repository.*;
 import com.huuluc.englearn.service.MissionDailyService;
+import com.huuluc.englearn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +21,7 @@ public class MissionDailyServiceImpl implements MissionDailyService {
     private final UserMissionRepository userMissionRepository;
     private final UserLessonRepository userLessonRepository;
     private final UserQuestionRepository userQuestionRepository;
+    private final UserService userService;
 
     @Override
     public ResponseEntity<ResponseModel> getAll() throws MissionDailyException {
@@ -34,40 +32,44 @@ public class MissionDailyServiceImpl implements MissionDailyService {
 
     @Override
     public ResponseEntity<ResponseModel> getMissionDailyByUserId(String username) throws UserMissionException,
-            UserLessonException, QuestionException, MissionDailyException, UserQuestionException {
+            UserLessonException, MissionDailyException, UserQuestionException, UserException {
         List<MissionDaily> missionDailies = missionDailyRepository.getAll();
 
-        List<MissionResponse> missionResponseList = new ArrayList<>();
-
-        //transform missionDailies to MissionResponse
-        for (MissionDaily missionDaily : missionDailies) {
-            missionResponseList.add(new MissionResponse(missionDaily));
-        }
+        //transform missionDailies to MissionResponse by using map function
+        List<MissionResponse> missionResponseList = missionDailies.stream().map(MissionResponse::new).toList();
 
         //check status lesson mission daily
-        if (userMissionRepository.findTodayMissionByUsername(username, (short) 1) == null) {
-            if (userLessonRepository.countLessonLearnedToday(username) > 0 &&
-                    (userMissionRepository.insert(username, (short) 1) == 1)) {
-                    missionResponseList.get(0).setDone(true);
-
-            }
-        } else {
-            missionResponseList.get(0).setDone(true);
-        }
+        checkMissionStatus(username, (short) 1, userLessonRepository.countLessonLearnedToday(username) > 0,
+                missionResponseList.get(0));
 
         //check status question mission daily
-        if (userMissionRepository.findTodayMissionByUsername(username, (short) 2) == null) {
-            if (userQuestionRepository.countTodayQuestion(username) > 4 &&
-                    (userMissionRepository.insert(username, (short) 2) == 1)) {
-                    missionResponseList.get(1).setDone(true);
-
-            }
-        } else {
-            missionResponseList.get(1).setDone(true);
-        }
+        checkMissionStatus(username, (short) 2, userQuestionRepository.countTodayQuestion(username) > 4,
+                missionResponseList.get(1));
 
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
                 "Get mission daily success", missionResponseList);
         return ResponseEntity.ok(responseModel);
     }
+
+    private void checkMissionStatus(String username, short missionType, boolean condition,
+                                    MissionResponse missionResponse) throws UserException, UserMissionException {
+
+        // if user complete mission, increase streak and set done to true
+        if (userMissionRepository.findTodayMissionByUsername(username, missionType) == null && condition) {
+            // if user complete mission, increase streak and set done to true
+            if (userService.increaseStreak(username) == 0) {
+                throw new UserException("Increase streak failed");
+            }
+
+            if (userMissionRepository.insert(username, missionType) == 0) {
+                throw new UserMissionException("Insert mission failed");
+            }
+            missionResponse.setDone(true);
+        } else if (userMissionRepository.findTodayMissionByUsername(username, missionType) != null) {
+            // if user already complete mission, set done to true
+            missionResponse.setDone(true);
+        }
+    }
+
+
 }

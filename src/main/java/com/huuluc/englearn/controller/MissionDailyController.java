@@ -23,7 +23,7 @@ public class MissionDailyController {
     @GetMapping("/")
     @Operation(summary = "Get mission daily by user id")
     public ResponseEntity<ResponseModel> getMissionDailyByUserId(String username) throws UserMissionException,
-            UserLessonException, QuestionException, MissionDailyException, UserQuestionException {
+            UserLessonException, QuestionException, MissionDailyException, UserQuestionException, UserException {
         log.info("Get mission daily by {}", username);
         return missionDailyService.getMissionDailyByUserId(username);
     }

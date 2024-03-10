@@ -23,4 +23,9 @@ public class UserMissionServiceImpl implements UserMissionService {
     public UserMission findTodayMissionByMissionId(String username, short missionId) throws UserMissionException {
         return userMissionRepository.findTodayMissionByUsername(username, missionId);
     }
+
+    @Override
+    public int checkActiveMissionLastDay(String username) throws UserMissionException {
+        return userMissionRepository.checkActiveMissionLastDay(username);
+    }
 }

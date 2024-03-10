@@ -10,4 +10,6 @@ public interface UserMissionService {
 
     UserMission findTodayMissionByMissionId(String username, short missionId) throws UserMissionException;
 
+    int checkActiveMissionLastDay(String username) throws UserMissionException;
+
 }

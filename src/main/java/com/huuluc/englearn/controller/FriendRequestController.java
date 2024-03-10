@@ -1,9 +1,6 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.exception.FriendRequestException;
-import com.huuluc.englearn.exception.LevelException;
-import com.huuluc.englearn.exception.MediaException;
-import com.huuluc.englearn.exception.UserException;
+import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.FriendRequestService;
@@ -26,7 +23,7 @@ public class FriendRequestController {
     @GetMapping("/sender/{sender}")
     @Operation(summary = "Get friend request by sender")
     public ResponseEntity<ResponseModel> findByUserSender(@PathVariable String sender)
-            throws FriendRequestException, UserException, MediaException, LevelException {
+            throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
         log.info("Get friend request by {}", sender);
         return friendRequestService.findByUserSender(sender);
     }
@@ -34,7 +31,7 @@ public class FriendRequestController {
     @GetMapping("/receiver/{receiver}")
     @Operation(summary = "Get friend request by receiver")
     public ResponseEntity<ResponseModel> findByUserReceiver(@PathVariable String receiver)
-            throws FriendRequestException, UserException, MediaException, LevelException {
+            throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
         log.info("Get friend request by {}", receiver);
         return friendRequestService.findByUserReceiver(receiver);
     }
@@ -42,7 +39,7 @@ public class FriendRequestController {
     @GetMapping("/list/{username}")
     @Operation(summary = "Get list friend")
     public ResponseEntity<ResponseModel> getListFriend(@PathVariable String username)
-            throws FriendRequestException, UserException, MediaException, LevelException {
+            throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
         log.info("Get list friend by {}", username);
         return friendRequestService.getListFriend(username);
     }

@@ -12,11 +12,9 @@ import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
 import com.huuluc.englearn.repository.RoleRepository;
+import com.huuluc.englearn.repository.UserMissionRepository;
 import com.huuluc.englearn.repository.UserRepository;
-import com.huuluc.englearn.service.LevelService;
-import com.huuluc.englearn.service.MediaService;
-import com.huuluc.englearn.service.StorageService;
-import com.huuluc.englearn.service.UserService;
+import com.huuluc.englearn.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,56 +32,81 @@ public class UserServiceImpl implements UserService {
     private final MediaService mediaService;
     private final LevelService levelService;
     private final StorageService storageService;
+    private final UserMissionService userMissionService;
+    private final UserMissionRepository userMissionRepository;
+
+    private int updateStreak(User user) throws UserMissionException, UserException {
+        if (userMissionService.checkActiveMissionLastDay(user.getUsername()) == 0) {
+            int result = userRepository.updateStreak(user.getUsername(), 0);
+
+            if (result == 0) {
+                throw new UserException(MessageStringResponse.UPDATE_STREAK_FAILED);
+            }
+            return result;
+        }
+        return 1;
+    }
+
+    public int increaseStreak(String username) throws UserException, UserMissionException {
+        if (userMissionRepository.checkActiveMissionToday(username) == 0) {
+            User user = userRepository.getByUsername(username);
+            int streak = user.getStreak();
+            return userRepository.updateStreak(username, streak + 1);
+        }
+        return 1;
+    }
 
     @Override
-    public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException {
+    public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException, UserMissionException {
         ResponseModel responseModel;
 
         User user = userRepository.getByUsername(username);
 
-        // Check if the user is found
-        if (user != null) { // If user is found
-            // Get url avatar
-            ResponseModel responseModelAvatar = mediaService.getById(user.getAvatar()).getBody();
-            Media media;
-
-            if (responseModelAvatar == null) {
-                throw new MediaException("Avatar not found");
-            } else {
-                media = (Media) responseModelAvatar.getData();
-            }
-            String avatarUrl = media.getUrl();
-
-            // Get Level
-            ResponseModel responseModelLevel = levelService.findByExp(user.getExperience()).getBody();
-
-            if (responseModelLevel == null) {
-                throw new LevelException("Level not found");
-            }
-            Level level = (Level) responseModelLevel.getData();
-
-            UserInfoResponse userInfoResponse = new UserInfoResponse(user);
-            userInfoResponse.setUrlAvatar(avatarUrl);
-            userInfoResponse.setLevel(level.getLevelName());
-
-            responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User found", userInfoResponse);
-            return ResponseEntity.ok(responseModel);
-        } else { // If user is not found
-            throw new UserException("User not found");
+        if (updateStreak(user) == 0) {
+            throw new UserException(MessageStringResponse.UPDATE_STREAK_FAILED);
         }
+
+        // Get url avatar
+        ResponseModel responseModelAvatar = mediaService.getById(user.getAvatar()).getBody();
+        Media media;
+
+        if (responseModelAvatar == null) {
+            throw new MediaException("Avatar not found");
+        } else {
+            media = (Media) responseModelAvatar.getData();
+        }
+        String avatarUrl = media.getUrl();
+
+        // Get Level
+        ResponseModel responseModelLevel = levelService.findByExp(user.getExperience()).getBody();
+
+        if (responseModelLevel == null) {
+            throw new LevelException("Level not found");
+        }
+        Level level = (Level) responseModelLevel.getData();
+
+        UserInfoResponse userInfoResponse = new UserInfoResponse(user);
+        userInfoResponse.setUrlAvatar(avatarUrl);
+        userInfoResponse.setLevel(level.getLevelName());
+
+        responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                MessageStringResponse.GET_USER_SUCCESSFULLY, userInfoResponse);
+        return ResponseEntity.ok(responseModel);
     }
 
     @Override
-    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException{
+    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException, UserMissionException {
         User user = userRepository.getByEmail(email);
+
+        if (updateStreak(user) == 0) {
+            throw new UserException(MessageStringResponse.UPDATE_STREAK_FAILED);
+        }
+
         ResponseModel responseModel;
 
-        if (user != null) {
-            responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User found", user);
-            return new ResponseEntity<>(responseModel, HttpStatus.OK);
-        } else {
-            throw new UserException("User not found");
-        }
+        responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                MessageStringResponse.GET_USER_SUCCESSFULLY, user);
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
     @Override
@@ -119,8 +142,7 @@ public class UserServiceImpl implements UserService {
            responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User created successfully", null);
             return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
         } else {  // If user is not created successfully
-            responseModel = new ResponseModel("error", "User creation failed", null);
-            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+            throw new UserException("User creation failed");
         }
     }
 
@@ -202,7 +224,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.getByUsername(request.getUsername());
         String password = user.getPassword();
 
-        //checl oldpassword is equal with password of user
+        //check old password is equal with password of user
         if (password.equals(request.getOldPassword())) {
             if (userRepository.changePassword(request) == 1) { // If password is changed successfully
                 ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Password changed successfully", null);

@@ -29,9 +29,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
     @Override
 
-    public ResponseEntity<ResponseModel> findByExamId(short exam_id) throws QuestionException {
+    public ResponseEntity<ResponseModel> findByExamId(short examId) throws QuestionException {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get all questions by exam id", questionRepository.findByExamId(exam_id));
+                "Get all questions by exam id", questionRepository.findByExamId(examId));
         return ResponseEntity.ok(responseModel);
     }
 
