@@ -9,7 +9,6 @@ import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
-import com.huuluc.englearn.model.response.MainUserInfoResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
 import com.huuluc.englearn.repository.RoleRepository;
@@ -63,9 +62,9 @@ public class UserServiceImpl implements UserService {
             }
             Level level = (Level) responseModelLevel.getData();
 
-            MainUserInfoResponse userInfoResponse = new UserInfoResponse(user);
+            UserInfoResponse userInfoResponse = new UserInfoResponse(user);
             userInfoResponse.setUrlAvatar(avatarUrl);
-            ((UserInfoResponse) userInfoResponse).setLevel(level.getLevelName());
+            userInfoResponse.setLevel(level.getLevelName());
 
             responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User found", userInfoResponse);
             return ResponseEntity.ok(responseModel);
@@ -151,7 +150,8 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseModel> updateAvatar(String username, MultipartFile avatar) throws UserException, StorageException, MediaException {
 
         //check avatar is image extension
-        if (!avatar.getContentType().startsWith("image/")) {
+        String contentType = avatar.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
             throw new StorageException("File is not an image");
         }
 
