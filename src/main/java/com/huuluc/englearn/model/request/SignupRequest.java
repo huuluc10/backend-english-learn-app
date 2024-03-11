@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest {
+public class SignupRequest {
     @Size(min = 1, max = 30)
     @NotNull
     @NotEmpty

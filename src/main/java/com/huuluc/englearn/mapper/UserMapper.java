@@ -4,13 +4,11 @@ import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
@@ -21,7 +19,10 @@ public interface UserMapper {
     User findByEmail(String email) throws UserException;
 
     @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password}")
-    User findByUsernameAndPassword(String username, String password);
+    User findByUsernameAndPassword(String username, String password) throws UserException;
+
+    @Select("SELECT * FROM user WHERE email = #{email} AND password = #{password}")
+    User findByEmailAndPassword(String email, String password) throws UserException;
 
     @Insert("INSERT INTO user (username, full_name, date_of_birth, email, password, role_id, avatar, streak, experience) VALUES (#{username}, #{fullName}, #{dateOfBirth}, #{email}, #{password}, #{roleId}, #{avatar}, #{streak}, #{experience})")
     int insertUser(User user) throws UserException;
@@ -40,5 +41,8 @@ public interface UserMapper {
 
     @Update("UPDATE user SET streak = #{streak} WHERE username = #{username}")
     int updateStreak(String username, int streak) throws UserException;
+
+    @Select("SELECT 1 FROM user WHERE username = #{username} LIMIT 1")
+    Optional<Boolean> existsByUsername(String username) throws UserException;
 
 }

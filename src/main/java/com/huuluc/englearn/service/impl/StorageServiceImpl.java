@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.constants.StorageProperties;
+import com.huuluc.englearn.utils.StorageProperties;
 import com.huuluc.englearn.exception.StorageException;
 import com.huuluc.englearn.exception.StorageFileNotFoundException;
 import com.huuluc.englearn.service.StorageService;

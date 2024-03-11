@@ -1,6 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.constants.MessageStringResponse;
+import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.FriendRequest;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
