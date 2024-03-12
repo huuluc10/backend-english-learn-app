@@ -16,6 +16,7 @@ public class MessageStringResponse {
     public static final String UNAUTHORIZED = "Unauthorized";
     public static final String LOGIN_SUCCESSFULLY = "Login successfully";
     public static final String LOGOUT_SUCCESSFULLY = "Logout successfully";
+    public static final String LOGOUT_FAILED = "Logout failed";
     public static final String SIGNUP_SUCCESSFULLY = "Signup successfully";
     public static final String SIGNUP_FAILED = "Signup failed";
     public static final String DATA_NOT_FOUND = "Data not found";
@@ -29,4 +30,6 @@ public class MessageStringResponse {
     public static final String OLD_PASSWORD_INCORRECT = "Old password is incorrect";
     public static final String SAVE_MEDIA_FAILED = "Save media failed";
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid username or password";
+    public static final String GET_ALL_TOPICS_SUCCESSFULLY = "Get all topics successfully";
+    public static final String GET_SUCCESS_RATE_SUCCESSFULLY = "Get success rate successfully";
 }

@@ -3,6 +3,8 @@ package com.huuluc.englearn.model.response;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class JwtResponse {
         private String username;
         private List<String> roles;
 
-    public JwtResponse(String accessToken, String username, List<String> roles) {
+    public JwtResponse(String accessToken, User user) {
         this.token = accessToken;
-        this.username = username;
-        this.roles = roles;
+        this.username = user.getUsername();
+        this.roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }
 
 }

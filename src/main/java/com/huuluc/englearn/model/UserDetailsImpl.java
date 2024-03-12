@@ -2,13 +2,13 @@ package com.huuluc.englearn.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
 
 import java.util.Collection;
 import java.util.Objects;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl extends User {
 
     private String username;
 
@@ -19,17 +19,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    public UserDetailsImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
     }
 
     public String getEmail() {

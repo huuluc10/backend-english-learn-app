@@ -23,8 +23,8 @@ public class AdminManageTopicController {
 
     @GetMapping("/")
     @Operation(summary = "Get all topics")
-    public ResponseEntity<ResponseModel> getAll(GetHistoryLearnRequest request) throws TopicException {
+    public ResponseEntity<ResponseModel> getAll() throws TopicException {
         log.info("Admin: Get all topics");
-        return topicService.getAll(request);
+        return topicService.getAll();
     }
 }

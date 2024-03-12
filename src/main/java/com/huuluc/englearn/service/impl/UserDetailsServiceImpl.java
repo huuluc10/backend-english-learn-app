@@ -26,12 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             User userGetByEmail = userRepository.getByEmail(username);
 
             if (userGetByEmail == null && userGetByUsername == null) {
-                throw new UserException(MessageStringResponse.GET_USER_NOT_FOUND);
+                throw new UsernameNotFoundException(MessageStringResponse.GET_USER_NOT_FOUND);
             }
 
-            Role roleByUsername = roleRepository.getByRoleId(userGetByUsername.getRoleId());
+            Role roleByUsername;
 
             if (userGetByUsername != null) {
+                roleByUsername = roleRepository.getByRoleId(userGetByUsername.getRoleId());
 
                 return org.springframework.security.core.userdetails.User.builder()
                         .username(userGetByUsername.getUsername())
@@ -39,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         .roles(roleByUsername.getName())
                         .build();
             } else {
+                roleByUsername = roleRepository.getByRoleId(userGetByEmail.getRoleId());
                 return org.springframework.security.core.userdetails.User.builder()
                         .username(userGetByEmail.getUsername())
                         .password(userGetByEmail.getPassword())

@@ -6,7 +6,8 @@ import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 
 public interface TopicService {
-    ResponseEntity<ResponseModel> getAll(GetHistoryLearnRequest request) throws TopicException;
+    ResponseEntity<ResponseModel> getAll() throws TopicException;
+    ResponseEntity<ResponseModel> getAllByUser(GetHistoryLearnRequest request) throws TopicException;
 
     ResponseEntity<ResponseModel> getSuccessRate(GetHistoryLearnRequest request) throws TopicException;
 }

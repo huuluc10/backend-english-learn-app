@@ -1,15 +1,14 @@
 package com.huuluc.englearn.security;
 
-import com.huuluc.englearn.model.UserDetailsImpl;
+import com.huuluc.englearn.exception.JwtTokenBlacklistException;
+import com.huuluc.englearn.model.JwtTokenBlacklist;
+import com.huuluc.englearn.repository.JwtTokenBlacklistRepository;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
-import java.security.Key;
 import java.util.Date;
 
 
@@ -22,31 +21,75 @@ public class JwtUtils {
     @Value("${englearn.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    private JwtTokenBlacklistRepository repository;
+
+    public JwtUtils(JwtTokenBlacklistRepository repository) {
+        this.repository = repository;
+    }
+
     public String generateJwtToken(Authentication authentication) {
 
         org.springframework.security.core.userdetails.User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-//    private Key key() {
-//        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-//    }
+
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret)
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateJwtToken(String authToken) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, IllegalArgumentException{
+    // Get expiration date from token
+    private Date getExpirationDateFromJwtToken(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret)
+                .parseClaimsJws(token).getBody().getExpiration();
+    }
+
+    // Check if token is expired
+    private boolean isTokenExpired(String token) {
+        return getExpirationDateFromJwtToken(token).before(new Date());
+    }
+
+    // Check if token is in blacklist
+    private boolean isTokenInBlacklist(String token) throws JwtTokenBlacklistException {
+        return repository.exists(token);
+    }
+
+
+    public int revokeToken(String jwt) throws JwtTokenBlacklistException {
+        if (isTokenInBlacklist(jwt)) {
+            return 1;
+        }
+
+        Date expiration = getExpirationDateFromJwtToken(jwt);
+
+        JwtTokenBlacklist token = new JwtTokenBlacklist(jwt, expiration);
+        if (repository.revokeToken(token) == 1) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public boolean validateJwtToken(String authToken) throws ExpiredJwtException, UnsupportedJwtException,
+            MalformedJwtException, IllegalArgumentException, JwtTokenBlacklistException {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parse(authToken);
-            return true;
+
+            // Check jwt in blacklist
+            if (repository.exists(authToken)) {
+                return false;
+            }
+
+            // Check if token is expired
+            return !isTokenExpired(authToken);
+
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
             throw new MalformedJwtException("Invalid JWT token");

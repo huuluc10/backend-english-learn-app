@@ -1,5 +1,7 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.InvalidUsernamePasswordException;
+import com.huuluc.englearn.exception.JwtTokenBlacklistException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.request.LoginRequest;
 import com.huuluc.englearn.model.request.SignupRequest;
@@ -46,7 +48,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<ResponseModel> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                                                          HttpServletRequest request) {
+                                                          HttpServletRequest request) throws InvalidUsernamePasswordException {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -61,14 +63,10 @@ public class AuthController {
             request.getSession().setAttribute("token", jwt);
 
             org.springframework.security.core.userdetails.User userDetails = (User) authentication.getPrincipal();
-            List<String> roles = userDetails.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .toList();
 
             // Return token to client
             JwtResponse jwtResponse = new JwtResponse(jwt,
-                    userDetails.getUsername(),
-                    roles);
+                    userDetails);
 
             ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
                     MessageStringResponse.LOGIN_SUCCESSFULLY, jwtResponse);
@@ -97,11 +95,24 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<ResponseModel> logout(HttpServletRequest request, HttpServletResponse response,
-                                                Authentication authentication) {
+                                                Authentication authentication) throws JwtTokenBlacklistException {
+        log.info("Logout");
+
+        // Remove authentication from SecurityContext
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.setClearAuthentication(true);
         securityContextLogoutHandler.logout(request, response, authentication);
+
+        // Remove token from session
+        request.getSession().removeAttribute("token");
         SecurityContextHolder.getContext().setAuthentication(null);
+        int resultRevokeToken = jwtUtils.revokeToken(request.getHeader("Authorization").substring(7));
+
+        // If revoke token failed
+        if (resultRevokeToken == 0) {
+            return ResponseEntity.badRequest().body(new ResponseModel(MessageStringResponse.ERROR,
+                    MessageStringResponse.LOGOUT_FAILED, null));
+        }
         return ResponseEntity.ok(new ResponseModel(MessageStringResponse.SUCCESS,
                 MessageStringResponse.LOGOUT_SUCCESSFULLY, null));
     }

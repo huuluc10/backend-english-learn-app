@@ -22,7 +22,15 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
 
     @Override
-    public ResponseEntity<ResponseModel> getAll(GetHistoryLearnRequest request) throws TopicException {
+    public ResponseEntity<ResponseModel> getAll() throws TopicException {
+        List<Topic> topics = topicRepository.getAll();
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                MessageStringResponse.GET_ALL_TOPICS_SUCCESSFULLY, topics);
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> getAllByUser(GetHistoryLearnRequest request) throws TopicException {
         List<Topic> topics = topicRepository.getAll();
         List<HistoryLearnTopicResponse> historyLearnTopicResponses = new ArrayList<>();
 
@@ -35,7 +43,7 @@ public class TopicServiceImpl implements TopicService {
         }
 
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get all topics successfully", historyLearnTopicResponses);
+                MessageStringResponse.GET_ALL_TOPICS_SUCCESSFULLY, historyLearnTopicResponses);
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
@@ -46,7 +54,7 @@ public class TopicServiceImpl implements TopicService {
 
         float successRate = topicRepository.getSuccessRate(username, topicId);
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get success rate for topic successfully", successRate);
+                MessageStringResponse.GET_SUCCESS_RATE_SUCCESSFULLY, successRate);
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 }
