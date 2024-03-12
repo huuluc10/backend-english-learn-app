@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,26 +22,35 @@ import org.springframework.web.bind.annotation.*;
 public class FriendRequestController {
     private final FriendRequestService friendRequestService;
 
-    @GetMapping("/sender/{sender}")
+    @GetMapping("/sender")
     @Operation(summary = "Get friend request by sender")
-    public ResponseEntity<ResponseModel> findByUserSender(@PathVariable String sender)
+    public ResponseEntity<ResponseModel> findByUserSender()
             throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String sender = securityContext.getAuthentication().getName();
         log.info("Get friend request by {}", sender);
         return friendRequestService.findByUserSender(sender);
     }
 
-    @GetMapping("/receiver/{receiver}")
+    @GetMapping("/receiver")
     @Operation(summary = "Get friend request by receiver")
-    public ResponseEntity<ResponseModel> findByUserReceiver(@PathVariable String receiver)
+    public ResponseEntity<ResponseModel> findByUserReceiver()
             throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String receiver = securityContext.getAuthentication().getName();
         log.info("Get friend request by {}", receiver);
         return friendRequestService.findByUserReceiver(receiver);
     }
 
-    @GetMapping("/list/{username}")
+    @GetMapping("/")
     @Operation(summary = "Get list friend")
-    public ResponseEntity<ResponseModel> getListFriend(@PathVariable String username)
+    public ResponseEntity<ResponseModel> getListFriend()
             throws FriendRequestException, UserException, MediaException, LevelException, UserMissionException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
         log.info("Get list friend by {}", username);
         return friendRequestService.getListFriend(username);
     }

@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +28,11 @@ public class ExamController {
 
     @GetMapping("/")
     @Operation(summary = "Get all exams by topic")
-    public ResponseEntity<ResponseModel> getAllExamsByTopic(@RequestParam String username, @RequestParam short topicId) throws ExamException, LevelException {
+    public ResponseEntity<ResponseModel> getAllExamsByTopic(@RequestParam short topicId) throws ExamException, LevelException {
         log.info("Get all exams by topic");
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
         return examService.getExamByTopicId(username, topicId);
     }
 }

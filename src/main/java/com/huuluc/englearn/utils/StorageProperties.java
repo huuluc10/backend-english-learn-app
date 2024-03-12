@@ -1,4 +1,4 @@
-package com.huuluc.englearn.constants;
+package com.huuluc.englearn.utils;
 
 import lombok.Getter;
 import lombok.Setter;

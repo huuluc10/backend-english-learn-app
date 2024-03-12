@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/storage")
+@RequestMapping("/storage")
 @Tag(name = "Storage", description = "Storage API")
 @Slf4j
 public class StorageController {

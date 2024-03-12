@@ -5,15 +5,18 @@ import com.huuluc.englearn.exception.MediaException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.exception.UserMissionException;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
-import com.huuluc.englearn.model.request.CreateUserRequest;
+import com.huuluc.englearn.model.request.SignupRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +32,7 @@ public class UserController {
 
     @PostMapping("/")
     @Operation(summary = "Create a new account")
-    public ResponseEntity<ResponseModel> createAccount(@RequestBody CreateUserRequest request) throws UserException {
+    public ResponseEntity<ResponseModel> createAccount(@RequestBody SignupRequest request) throws UserException {
         log.info("Create account by username {}", request.getUsername());
         return userService.createUser(request);
     }
@@ -43,9 +46,11 @@ public class UserController {
 
     @PostMapping("/updateAvatar")
     @Operation(summary = "Update user avatar")
-    public ResponseEntity<ResponseModel> updateAvatar(@RequestParam String username,
-                                                      @RequestParam("file") MultipartFile avatar)
+    public ResponseEntity<ResponseModel> updateAvatar(@RequestParam("file") MultipartFile avatar)
             throws UserException, MediaException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
         log.info("Update user avatar by username {}", username);
         return userService.updateAvatar(username, avatar);
     }
@@ -53,17 +58,13 @@ public class UserController {
 
     @PostMapping("/getByUsername")
     @Operation(summary = "Get user information by username")
-    public ResponseEntity<ResponseModel> getByUsername(@RequestParam String username)
+    public ResponseEntity<ResponseModel> getByUsername()
             throws UserException, MediaException, LevelException, UserMissionException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
         log.info("Get user information by username {}", username);
         return userService.getByUsername(username);
-    }
-
-    @GetMapping("/getByEmail")
-    @Operation(summary = "Get user information by email")
-    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException, UserMissionException {
-        log.info("Get user information by email {}", email);
-        return userService.getByEmail(email);
     }
 
     @PostMapping("/changePassword")

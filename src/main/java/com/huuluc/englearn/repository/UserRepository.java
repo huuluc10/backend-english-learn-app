@@ -16,7 +16,7 @@ import java.util.List;
 public class UserRepository {
     private final UserMapper userMapper;
 
-    public User getByUsername(String username) {
+    public User getByUsername(String username) throws UserException {
         return userMapper.findByUsername(username);
     }
 
@@ -24,8 +24,12 @@ public class UserRepository {
         return userMapper.findByEmail(email);
     }
 
-    public User getByUsernameAndPassword(String username, String password) {
+    public User getByUsernameAndPassword(String username, String password) throws UserException {
         return userMapper.findByUsernameAndPassword(username, password);
+    }
+
+    public User getByEmailAndPassword(String username, String password) throws UserException {
+        return userMapper.findByEmailAndPassword(username, password);
     }
 
     public int insertUser(User user) throws UserException {
@@ -50,5 +54,9 @@ public class UserRepository {
 
     public int updateStreak(String username, int streak) throws UserException {
         return userMapper.updateStreak(username, streak);
+    }
+
+    public boolean existsByUsername(String username) throws UserException {
+        return userMapper.existsByUsername(username).isPresent();
     }
 }

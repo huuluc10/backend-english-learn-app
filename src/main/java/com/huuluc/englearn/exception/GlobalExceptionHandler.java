@@ -1,17 +1,25 @@
 package com.huuluc.englearn.exception;
 
-import com.huuluc.englearn.constants.MessageStringResponse;
+import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.javassist.NotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
@@ -174,6 +182,86 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseModel> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with sql integrity constraint violation exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidUsernamePasswordException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleInvalidUsernamePasswordException(InvalidUsernamePasswordException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.UNAUTHORIZED,
+                ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(JwtTokenBlacklistException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleJwtTokenBlacklistException(JwtTokenBlacklistException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.UNAUTHORIZED,
+                "A error occur with jwt token blacklist exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleMalformedJwtException(MalformedJwtException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with malformed jwt exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleExpiredJwtException(ExpiredJwtException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with expired jwt exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleUnsupportedJwtException(UnsupportedJwtException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with unsupported jwt exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public void handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response,
+                                            AccessDeniedException accessDeniedException) throws IOException {
+        // 403
+        response.sendError(403, "Authorization Failed : " + accessDeniedException.getMessage());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.UNAUTHORIZED,
+                "A error occur with username not found exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseModel> handleAuthenticationException(AuthenticationException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.UNAUTHORIZED,
+                "A error occur with authentication exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ResponseModel> handleRuntimeException(RuntimeException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with runtime exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with illegal argument exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
     }
 

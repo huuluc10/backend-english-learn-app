@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.huuluc.englearn.constants.*;
+import com.huuluc.englearn.utils.*;
 
 @Setter
 @Getter

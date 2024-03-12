@@ -1,13 +1,13 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.constants.MessageStringResponse;
+import com.huuluc.englearn.model.request.SignupRequest;
+import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
-import com.huuluc.englearn.model.request.CreateUserRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final UserMissionService userMissionService;
     private final UserMissionRepository userMissionRepository;
 
+    // Update streak of user if user has not completed the mission of the last day
     private int updateStreak(User user) throws UserMissionException, UserException {
         if (userMissionService.checkActiveMissionLastDay(user.getUsername()) == 0) {
             int result = userRepository.updateStreak(user.getUsername(), 0);
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return 1;
     }
 
+    // Increase the streak of user
     public int increaseStreak(String username) throws UserException, UserMissionException {
         if (userMissionRepository.checkActiveMissionToday(username) == 0) {
             User user = userRepository.getByUsername(username);
@@ -55,6 +59,7 @@ public class UserServiceImpl implements UserService {
         }
         return 1;
     }
+
 
     @Override
     public ResponseEntity<ResponseModel> getByUsername(String username) throws UserException, LevelException, MediaException, UserMissionException {
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService {
         Media media;
 
         if (responseModelAvatar == null) {
-            throw new MediaException("Avatar not found");
+            throw new MediaException(MessageStringResponse.DATA_NOT_FOUND);
         } else {
             media = (Media) responseModelAvatar.getData();
         }
@@ -81,7 +86,7 @@ public class UserServiceImpl implements UserService {
         ResponseModel responseModelLevel = levelService.findByExp(user.getExperience()).getBody();
 
         if (responseModelLevel == null) {
-            throw new LevelException("Level not found");
+            throw new LevelException(MessageStringResponse.DATA_NOT_FOUND);
         }
         Level level = (Level) responseModelLevel.getData();
 
@@ -95,33 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> getByEmail(String email) throws UserException, UserMissionException {
-        User user = userRepository.getByEmail(email);
-
-        if (updateStreak(user) == 0) {
-            throw new UserException(MessageStringResponse.UPDATE_STREAK_FAILED);
-        }
-
-        ResponseModel responseModel;
-
-        responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                MessageStringResponse.GET_USER_SUCCESSFULLY, user);
-        return new ResponseEntity<>(responseModel, HttpStatus.OK);
-    }
-
-    @Override
-    public UserDetails getByUsernameAndPassword(String username, String password) throws RoleException {
-        User user = userRepository.getByUsername(username);
-        Role role = roleRepository.getByRoleId(user.getRoleId());
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(role.getName())
-                .build();
-    }
-
-    @Override
-    public ResponseEntity<ResponseModel> createUser(CreateUserRequest request) throws UserException {
+    public ResponseEntity<ResponseModel> createUser(SignupRequest request) throws UserException {
         // Create a new user object
         User user = new User();
         user.setUsername(request.getUsername());
@@ -130,29 +109,35 @@ public class UserServiceImpl implements UserService {
         user.setFullName(request.getFullName());
         user.setDateOfBirth(request.getDateOfBirth());
         user.setEmail(null);
-        user.setRoleId((short) 1);
+        user.setRoleId((short) 2);
         user.setStreak(0);
-        user.setAvatar(1);
         user.setExperience(0);
+
+        if (user.isGender()) { // If user is male
+            user.setAvatar((short) 2);
+        } else { // If user is female
+            user.setAvatar((short) 3);
+        }
 
         ResponseModel responseModel;
 
         // Check if the response is successful
         if (userRepository.insertUser(user) == 1) { // If user is created successfully
-           responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User created successfully", null);
+           responseModel = new ResponseModel(MessageStringResponse.SUCCESS, MessageStringResponse.SIGNUP_SUCCESSFULLY, null);
             return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
         } else {  // If user is not created successfully
-            throw new UserException("User creation failed");
+            throw new UserException(MessageStringResponse.SIGNUP_FAILED);
         }
     }
 
     @Override
     public ResponseEntity<ResponseModel> updateUser(UpdateInfoRequest request) throws UserException {
         if (userRepository.updateUser(request) == 1) { // If user is updated successfully
-            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User updated successfully", null);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                    MessageStringResponse.UPDATE_INFO_SUCCESSFULLY, null);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
-            throw new UserException("User update failed");
+            throw new UserException(MessageStringResponse.UPDATE_INFO_FAILED);
         }
     }
 
@@ -161,10 +146,11 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findAll();
 
         if (userList != null) {
-            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "User list found", userList);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                    MessageStringResponse.GET_LIST_FRIEND_SUCCESSFULLY, userList);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
-            throw new UserException("User list not found");
+            throw new UserException(MessageStringResponse.DATA_NOT_FOUND);
         }
     }
 
@@ -172,9 +158,12 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseModel> updateAvatar(String username, MultipartFile avatar) throws UserException, StorageException, MediaException {
 
         //check avatar is image extension
+        if (avatar.isEmpty()) {
+            throw new StorageException(MessageStringResponse.FILE_IS_EMPTY);
+        }
         String contentType = avatar.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new StorageException("File is not an image");
+            throw new StorageException(MessageStringResponse.FILE_IS_NOT_SUPPORTED);
         }
 
         // replace the file name with the username and extension no change
@@ -197,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
                 //check save media success
                 if (resultSave == 0) {
-                    throw new MediaException("Save media failed");
+                    throw new MediaException(MessageStringResponse.SAVE_MEDIA_FAILED);
                 } else {
                     // update the user avatar
                     Media newMedia = mediaService.getByName(mediaName);
@@ -205,16 +194,17 @@ public class UserServiceImpl implements UserService {
 
                     //check update avatar success
                     if (resultUpdate == 0) {
-                        throw new UserException("Update avatar failed");
+                        throw new UserException(MessageStringResponse.UPDATE_AVATAR_FAILED);
                     }
                 }
             }
 
 
-            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Avatar updated successfully", null);
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                    MessageStringResponse.UPDATE_AVATAR_SUCCESSFULLY, null);
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
-            throw new StorageException("Avatar upload failed");
+            throw new StorageException(MessageStringResponse.UPDATE_AVATAR_FAILED);
         }
     }
 
@@ -227,13 +217,19 @@ public class UserServiceImpl implements UserService {
         //check old password is equal with password of user
         if (password.equals(request.getOldPassword())) {
             if (userRepository.changePassword(request) == 1) { // If password is changed successfully
-                ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS, "Password changed successfully", null);
+                ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                        MessageStringResponse.CHANGE_PASSWORD_SUCCESSFULLY, null);
                 return new ResponseEntity<>(responseModel, HttpStatus.OK);
             } else {
-                throw new UserException("Password change failed");
+                throw new UserException(MessageStringResponse.CHANGE_PASSWORD_FAILED);
             }
         } else {    // If old password is incorrect
-            throw new UserException("Old password is incorrect");
+            throw new UserException(MessageStringResponse.OLD_PASSWORD_INCORRECT);
         }
+    }
+
+    @Override
+    public boolean existsByUsername(String username) throws UserException {
+        return userRepository.existsByUsername(username);
     }
 }
