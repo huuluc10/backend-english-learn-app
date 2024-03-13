@@ -5,6 +5,7 @@ import com.huuluc.englearn.model.response.ResponseModel;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -223,6 +224,14 @@ public class GlobalExceptionHandler {
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
                 "A error occur with unsupported jwt exception: " + ex.getMessage(), null);
         return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ResponseModel> handleMessagingException(MessagingException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with messaging exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
