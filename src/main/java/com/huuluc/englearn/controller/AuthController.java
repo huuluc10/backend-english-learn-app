@@ -51,6 +51,7 @@ public class AuthController {
                                                           HttpServletRequest request) throws InvalidUsernamePasswordException {
 
         try {
+            log.info("Login");
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
