@@ -1,7 +1,9 @@
 package com.huuluc.englearn.controller;
 
+import com.huuluc.englearn.exception.StorageFileNotFoundException;
 import com.huuluc.englearn.service.StorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,7 @@ public class StorageController {
     private final StorageService storageService;
     @GetMapping("/")
     @Operation(summary = "Serve file")
-    public ResponseEntity<byte[]> serveFile() throws IOException {
+    public ResponseEntity<byte[]> serveFile() throws IOException, StorageFileNotFoundException {
         log.info("Serve file");
         String filename = "images/launcher/logo.png";
         Resource file = storageService.loadAsResource(filename);
@@ -66,12 +68,18 @@ public class StorageController {
 
     @PostMapping("/getfile")
     @Operation(summary = "Get file")
-    public ResponseEntity<byte[]> getFile(@RequestParam String path) throws IOException {
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Not found")
+    })
+    public ResponseEntity<byte[]> getFile(@RequestParam String path) throws IOException, StorageFileNotFoundException {
         log.info("Get file {}", path);
         Resource file = storageService.loadAsResource(path);
 
-        if (file == null)
+        if (file == null) {
+            log.error("File not found");
             return ResponseEntity.notFound().build();
+        }
 
         String mimeType;
 

@@ -1,17 +1,12 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.exception.LevelException;
-import com.huuluc.englearn.exception.MediaException;
-import com.huuluc.englearn.exception.UserException;
-import com.huuluc.englearn.exception.UserMissionException;
-import com.huuluc.englearn.model.request.ChangePasswordRequest;
-import com.huuluc.englearn.model.request.SignupRequest;
-import com.huuluc.englearn.model.request.UpdateInfoRequest;
+import com.huuluc.englearn.exception.*;
+import com.huuluc.englearn.model.request.*;
 import com.huuluc.englearn.model.response.ResponseModel;
+import com.huuluc.englearn.service.MailService;
 import com.huuluc.englearn.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +24,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final MailService mailService;
 
     @PostMapping("/")
     @Operation(summary = "Create a new account")
@@ -73,5 +69,19 @@ public class UserController {
             throws UserException, SQLIntegrityConstraintViolationException {
         log.info("Change password by username {}", request.getUsername());
         return userService.changePassword(request);
+    }
+
+
+    @PostMapping("/addEmail")
+    @Operation(summary = "Add mail")
+    public ResponseEntity<ResponseModel> addEmail(@RequestBody AddEmailRequest request) throws UserException {
+        log.info("Add mail");
+        return userService.addEmail(request);
+    }
+    @PostMapping("/resetPassword")
+    @Operation(summary = "Reset password")
+    public ResponseEntity<ResponseModel> resetPassword(@RequestBody ResetPasswordRequest request) throws UserException{
+        log.info("Reset password");
+        return userService.resetPassword(request);
     }
 }

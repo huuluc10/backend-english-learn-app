@@ -1,14 +1,12 @@
 package com.huuluc.englearn.service.impl;
 
-import com.huuluc.englearn.model.request.SignupRequest;
+import com.huuluc.englearn.model.request.*;
 import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
 import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
-import com.huuluc.englearn.model.request.ChangePasswordRequest;
-import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
 import com.huuluc.englearn.repository.RoleRepository;
@@ -231,5 +229,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByUsername(String username) throws UserException {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> addEmail(AddEmailRequest request) throws UserException {
+        User user = userRepository.getByUsername(request.getUsername());
+        if (user == null) {
+            throw new UserException(MessageStringResponse.GET_USER_NOT_FOUND);
+        }
+
+        int result = userRepository.addEmail(request);
+
+        if (result == 1) {
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                    MessageStringResponse.ADD_EMAIL_SUCCESSFULLY, null);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new UserException(MessageStringResponse.ADD_EMAIL_FAILED);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> resetPassword(ResetPasswordRequest request) throws UserException {
+        User user = userRepository.getByUsername(request.getUsername());
+        if (user == null) {
+            throw new UserException(MessageStringResponse.GET_USER_NOT_FOUND);
+        }
+
+        int result = userRepository.resetPassword(request);
+
+        if (result == 1) {
+            ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                    MessageStringResponse.CHANGE_PASSWORD_SUCCESSFULLY, null);
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            throw new UserException(MessageStringResponse.CHANGE_PASSWORD_FAILED);
+        }
     }
 }

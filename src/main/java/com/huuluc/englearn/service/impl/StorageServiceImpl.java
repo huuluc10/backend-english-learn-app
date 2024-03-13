@@ -61,22 +61,13 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public Resource loadAsResource(String url) {
-        try {
-            Path file = load(url);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-            else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + url);
-
-            }
+    public Resource loadAsResource(String url) throws StorageFileNotFoundException, MalformedURLException {
+        Path file = load(url);
+        Resource resource = new UrlResource(file.toUri());
+        if (resource.exists() || resource.isReadable()) {
+            return resource;
         }
-        catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + url, e);
-        }
+        return null;
     }
 
     @Override

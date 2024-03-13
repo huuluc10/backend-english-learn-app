@@ -1,7 +1,7 @@
 package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.FriendRequestException;
-import com.huuluc.englearn.model.FriendRequest;
+import com.huuluc.englearn.model.request.FriendRequest;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -48,6 +48,46 @@ To install the EngLearn project using IntelliJ IDEA, follow these steps:
 6. To access the application, open a web browser and go to `http://localhost:8080`.
 7. You should now see the EngLearn application running on your local machine.
 
+## Update the application.properties file
+
+
+```
+# DataSource
+spring.datasource.url=jdbc:uri
+spring.datasource.username=username
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# MyBatis
+mybatis.type-aliases-package=com.huuluc.englearn.model
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.default-fetch-size=100
+mybatis.configuration.default-statement-timeout=300
+
+# Limit size file upload 5MB
+spring.servlet.multipart.max-file-size=5MB
+spring.servlet.multipart.max-request-size=5MB
+
+# Logging
+logging.level.org.springframework.web=info
+logging.level.root=info
+logging.file.name=logs/eng-learn-app.log
+
+# JWT
+englearn.app.jwtSecret= your-secret-key
+# set 15 days
+englearn.app.jwtExpirationMs=1296000000
+
+# Mail
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=youremail
+spring.mail.password=yourapp-password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+```
+
+
 ## Contact
 
 For any questions, issues, or suggestions related to this project, please feel free to contact the author:

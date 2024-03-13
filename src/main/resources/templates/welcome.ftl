@@ -41,18 +41,20 @@
 </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Welcome to EngLearn App</h1>
-        </div>
-        <div class="content">
-            <p>Chào mừng ${name} đã đến với EngLearn App - Một ứng dụng học tập tiếng Anh!</p>
-            <p>Hãy bắt đầu hành trình học tiếng Anh của bạn ngay bây giờ để nâng cao kỹ năng và mở rộng kiến thức của bạn.</p>
-            <p>Chúng tôi rất vui khi bạn tham gia cùng chúng tôi.</p>
-        </div>
-        <div class="footer">
-            EngLearn App Team
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Welcome to EngLearn App</h1>
     </div>
+    <div class="content">
+        <p>Chào mừng ${name} đã đến với EngLearn App - Một ứng dụng học tập tiếng Anh!</p>
+        <p>Hãy bắt đầu hành trình học tiếng Anh của bạn ngay bây giờ để nâng cao kỹ năng và mở rộng kiến thức của bạn.</p>
+        <p>Chúng tôi rất vui khi bạn tham gia cùng chúng tôi.</p>
+        <p>Đây là mã OTP của bạn để xác thực: <strong class="otp">${code}</strong></p>
+        <p>Mã này sẽ hết hạn sau 5 phút. Vui lòng không chia sẻ mã này với người khác.</p>
+    </div>
+    <div class="footer">
+        EngLearn App Team
+    </div>
+</div>
 </body>
 </html>

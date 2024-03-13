@@ -32,4 +32,6 @@ public class MessageStringResponse {
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid username or password";
     public static final String GET_ALL_TOPICS_SUCCESSFULLY = "Get all topics successfully";
     public static final String GET_SUCCESS_RATE_SUCCESSFULLY = "Get success rate successfully";
+    public static final String ADD_EMAIL_SUCCESSFULLY = "Add email successfully";
+    public static final String ADD_EMAIL_FAILED = "Add email failed";
 }

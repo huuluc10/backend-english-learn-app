@@ -3,7 +3,9 @@ package com.huuluc.englearn.repository;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.mapper.UserMapper;
+import com.huuluc.englearn.model.request.AddEmailRequest;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
+import com.huuluc.englearn.model.request.ResetPasswordRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -58,5 +60,13 @@ public class UserRepository {
 
     public boolean existsByUsername(String username) throws UserException {
         return userMapper.existsByUsername(username).isPresent();
+    }
+
+    public int addEmail(AddEmailRequest request) throws UserException {
+        return userMapper.addEmail(request);
+    }
+
+    public int resetPassword(ResetPasswordRequest request) throws UserException {
+        return userMapper.resetPassword(request);
     }
 }

@@ -1,6 +1,6 @@
 package com.huuluc.englearn.exception;
 
-public class StorageFileNotFoundException extends StorageException{
+public class StorageFileNotFoundException extends Exception{
     public StorageFileNotFoundException(String message) {
         super(message);
     }

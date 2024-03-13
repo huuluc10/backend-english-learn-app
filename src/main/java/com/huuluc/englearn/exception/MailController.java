@@ -22,11 +22,7 @@ import java.io.IOException;
 public class MailController {
     private final MailService mailService;
 
-    @PostMapping("/send/{email}")
-    public String sendMail(@PathVariable String email) throws MessagingException, TemplateException, IOException {
-        MailStructure mailStructure = new MailStructure("Lam","Test", "<h1>Test</h1>");
-        mailService.sendMail(email,mailStructure );
-        log.info("Mail sent");
-        return "Mail sent";
-    }
+
+
+
 }
