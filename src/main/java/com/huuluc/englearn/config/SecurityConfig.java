@@ -2,7 +2,6 @@ package com.huuluc.englearn.config;
 
 import com.huuluc.englearn.security.AuthEntryPointJwt;
 import com.huuluc.englearn.security.AuthTokenFilter;
-import com.huuluc.englearn.security.CustomAccessDeniedHandler;
 import com.huuluc.englearn.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +26,6 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -47,14 +45,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(unauthorizedHandler)
-                        .accessDeniedHandler(customAccessDeniedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                                 .requestMatchers("/storage/**", "/auth/**", "/v3/api-docs/**",
-                                        "/swagger-ui/**").permitAll()
+                                        "/swagger-ui/**", "/otp/forgot-password/**", "/otp/verifyCodeOTP").permitAll()
                                 .requestMatchers("/admin/**").hasRole("Admin")
                                 .requestMatchers("/api/**").hasRole("User")
                                 .anyRequest().authenticated()

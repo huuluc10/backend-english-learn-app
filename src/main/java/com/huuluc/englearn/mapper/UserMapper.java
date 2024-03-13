@@ -2,7 +2,9 @@ package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.User;
+import com.huuluc.englearn.model.request.AddEmailRequest;
 import com.huuluc.englearn.model.request.ChangePasswordRequest;
+import com.huuluc.englearn.model.request.ResetPasswordRequest;
 import com.huuluc.englearn.model.request.UpdateInfoRequest;
 import org.apache.ibatis.annotations.*;
 
@@ -45,4 +47,9 @@ public interface UserMapper {
     @Select("SELECT 1 FROM user WHERE username = #{username} LIMIT 1")
     Optional<Boolean> existsByUsername(String username) throws UserException;
 
+    @Update("UPDATE user SET email = #{email} WHERE username = #{username}")
+    int addEmail(AddEmailRequest request) throws UserException;
+
+    @Update("UPDATE user SET password = #{newPassword} WHERE username = #{username}")
+    int resetPassword(ResetPasswordRequest request) throws UserException;
 }

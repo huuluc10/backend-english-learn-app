@@ -1,9 +1,7 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.exception.*;
-import com.huuluc.englearn.model.request.ChangePasswordRequest;
-import com.huuluc.englearn.model.request.SignupRequest;
-import com.huuluc.englearn.model.request.UpdateInfoRequest;
+import com.huuluc.englearn.model.request.*;
 import com.huuluc.englearn.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,4 +25,8 @@ public interface UserService {
     int increaseStreak(String username) throws UserException, UserMissionException;
 
     boolean existsByUsername(String username) throws UserException;
+
+    ResponseEntity<ResponseModel> addEmail(AddEmailRequest request) throws UserException;
+
+    ResponseEntity<ResponseModel> resetPassword(ResetPasswordRequest request) throws UserException;
 }

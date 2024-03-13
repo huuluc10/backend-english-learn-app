@@ -146,6 +146,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CodeVerificationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseModel> handleCodeVerificationException(CodeVerificationException ex) {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.ERROR,
+                "A error occur with code verification exception: " + ex.getMessage(), null);
+        return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(QuestionTypeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseModel> handleQuestionTypeException(QuestionTypeException ex) {

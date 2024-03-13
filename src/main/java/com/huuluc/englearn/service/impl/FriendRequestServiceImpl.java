@@ -2,7 +2,7 @@ package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.*;
-import com.huuluc.englearn.model.FriendRequest;
+import com.huuluc.englearn.model.request.FriendRequest;
 import com.huuluc.englearn.model.request.FriendRequiredRequest;
 import com.huuluc.englearn.model.response.MainUserInfoResponse;
 import com.huuluc.englearn.model.response.ResponseModel;
