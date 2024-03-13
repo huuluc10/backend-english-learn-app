@@ -164,6 +164,7 @@ public class MailServiceImpl implements MailService  {
         }
 
         if (Objects.equals(request.getCode(), code)) {
+            codeVerificationService.deleteCodeVerification(request.getEmail());
             return ResponseEntity.ok().body(new ResponseModel(MessageStringResponse.SUCCESS, "Code is correct", null));
         } else {
             return ResponseEntity.badRequest().body(new ResponseModel(MessageStringResponse.ERROR, "Code is incorrect", null));
