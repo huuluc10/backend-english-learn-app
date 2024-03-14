@@ -3,7 +3,6 @@ package com.huuluc.englearn.controller;
 import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.request.*;
 import com.huuluc.englearn.model.response.ResponseModel;
-import com.huuluc.englearn.service.MailService;
 import com.huuluc.englearn.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +23,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @Slf4j
 public class UserController {
     private final UserService userService;
-    private final MailService mailService;
 
     @PostMapping("/")
     @Operation(summary = "Create a new account")
@@ -83,5 +81,15 @@ public class UserController {
     public ResponseEntity<ResponseModel> resetPassword(@RequestBody ResetPasswordRequest request) throws UserException{
         log.info("Reset password");
         return userService.resetPassword(request);
+    }
+
+    @GetMapping("/getStreak")
+    @Operation(summary = "Get user streak")
+    public ResponseEntity<ResponseModel> getStreak() throws UserException {
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
+        log.info("Get user streak by username {}", username);
+        return userService.getStreak(username);
     }
 }

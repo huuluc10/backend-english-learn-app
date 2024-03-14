@@ -55,4 +55,7 @@ public interface UserMapper {
 
     @Update("UPDATE user SET password = #{newPassword} WHERE username = #{username}")
     int resetPassword(ResetPasswordRequest request) throws UserException;
+
+    @Select("SELECT streak FROM user WHERE username = #{username}")
+    int getStreak(String username) throws UserException;
 }

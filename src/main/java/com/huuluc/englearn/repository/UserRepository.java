@@ -73,4 +73,8 @@ public class UserRepository {
     public int resetPassword(ResetPasswordRequest request) throws UserException {
         return userMapper.resetPassword(request);
     }
+
+    public int getStreak(String username) throws UserException {
+        return userMapper.getStreak(username);
+    }
 }

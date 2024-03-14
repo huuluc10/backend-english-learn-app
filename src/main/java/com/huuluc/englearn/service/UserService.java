@@ -31,4 +31,6 @@ public interface UserService {
     ResponseEntity<ResponseModel> addEmail(AddEmailRequest request) throws UserException;
 
     ResponseEntity<ResponseModel> resetPassword(ResetPasswordRequest request) throws UserException;
+
+    ResponseEntity<ResponseModel> getStreak(String username) throws UserException;
 }
