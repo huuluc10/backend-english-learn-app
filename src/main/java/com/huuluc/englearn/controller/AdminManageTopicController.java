@@ -1,7 +1,6 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.exception.TopicException;
-import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.TopicService;
 import io.swagger.v3.oas.annotations.Operation;

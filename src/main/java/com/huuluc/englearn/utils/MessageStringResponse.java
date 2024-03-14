@@ -35,4 +35,5 @@ public class MessageStringResponse {
     public static final String GET_SUCCESS_RATE_SUCCESSFULLY = "Get success rate successfully";
     public static final String ADD_EMAIL_SUCCESSFULLY = "Add email successfully";
     public static final String ADD_EMAIL_FAILED = "Add email failed";
+    public static final String INIT_VERIFY_CODE_FAILED = "Init verify code failed";
 }

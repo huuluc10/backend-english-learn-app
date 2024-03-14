@@ -1,6 +1,5 @@
 package com.huuluc.englearn.controller;
 
-import com.huuluc.englearn.exception.InvalidUsernamePasswordException;
 import com.huuluc.englearn.exception.JwtTokenBlacklistException;
 import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.request.LoginRequest;
@@ -22,7 +21,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,8 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,7 +44,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<ResponseModel> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                                                          HttpServletRequest request) throws InvalidUsernamePasswordException {
+                                                          HttpServletRequest request) {
 
         try {
             log.info("Login");

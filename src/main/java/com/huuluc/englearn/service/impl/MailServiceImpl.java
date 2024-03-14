@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class MailServiceImpl implements MailService  {
     private final CodeVerificationService codeVerificationService;
     private final UserService userService;
     private final Configuration config;
+    private final Random random = new Random();
 
     @Value("${spring.mail.username}")
     private String from;
@@ -46,13 +48,29 @@ public class MailServiceImpl implements MailService  {
     private String generateCode() {
         StringBuilder sb = new StringBuilder(6);
         for (int i = 0; i < 6; i++) {
-            sb.append((int) (Math.random() * 10));
+            sb.append(random.nextInt(10));
         }
         return sb.toString();
     }
 
+    private String getBodyMail(String namefile, Map<String, String> model) throws IOException, TemplateException {
+        Template t = config.getTemplate(namefile);
+        return FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+    }
+
+    private int insertCodeVerification(MailStructure mailStructure, String code) throws CodeVerificationException {
+        // Create CodeVerification object
+        CodeVerification codeVerification = new CodeVerification();
+        codeVerification.setEmail(mailStructure.getTo());
+        codeVerification.setCode(code);
+        codeVerification.setExpiredAt(new Date(System.currentTimeMillis() + 300000)); // 5 minutes
+
+        // Insert into table code_verification
+        return  codeVerificationService.insertCodeVerification(codeVerification);
+    }
+
     @Override
-    public ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws MessagingException, IOException, TemplateException, CodeVerificationException, UserException {
+    public ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws CodeVerificationException, UserException {
         ResponseModel responseModel;
 
         if (!userService.existsByEmail(mailStructure.getTo())) {
@@ -63,19 +81,12 @@ public class MailServiceImpl implements MailService  {
         try {
             String code = generateCode();
 
-            // Create CodeVerification object
-            CodeVerification codeVerification = new CodeVerification();
-            codeVerification.setEmail(mailStructure.getTo());
-            codeVerification.setCode(code);
-            codeVerification.setExpiredAt(new Date(System.currentTimeMillis() + 300000)); // 5 minutes
 
-            // Insert into table code_verification
-            int resultInsert = codeVerificationService.insertCodeVerification(codeVerification);
+            int resultInsert = insertCodeVerification(mailStructure, code);
 
-            // If insert failed
             if (resultInsert == 0) {
                 responseModel = new ResponseModel(MessageStringResponse.ERROR,
-                        "Failed to init code verification", null);
+                        MessageStringResponse.INIT_VERIFY_CODE_FAILED, null);
                 return ResponseEntity.badRequest().body(responseModel);
             }
 
@@ -84,10 +95,11 @@ public class MailServiceImpl implements MailService  {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
 
+            //List of parameters in html file
             Map<String, String> model = Map.of("code", code);
+            //Get html file
+            String html = getBodyMail("reset_password.ftl", model);
 
-            Template t = config.getTemplate("reset_password.ftl");
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
             helper.setTo(mailStructure.getTo());
             helper.setText(html, true);
             helper.setSubject(mailStructure.getSubject());
@@ -104,7 +116,7 @@ public class MailServiceImpl implements MailService  {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws MessagingException, IOException, TemplateException, UserException {
+    public ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws UserException {
         ResponseModel responseModel;
 
         if (userService.existsByEmail(mailStructure.getTo())) {
@@ -119,38 +131,19 @@ public class MailServiceImpl implements MailService  {
 
             String code = generateCode();
 
-            // Create CodeVerification object
-            CodeVerification codeVerification = new CodeVerification();
-            codeVerification.setEmail(mailStructure.getTo());
-            codeVerification.setCode(code);
-            codeVerification.setExpiredAt(new Date(System.currentTimeMillis() + 300000)); // 5 minutes
+            int resultInsert = insertCodeVerification(mailStructure, code);
 
-            // Insert into table code_verification
-            int resultInsert = codeVerificationService.insertCodeVerification(codeVerification);
-
-            // If insert failed
             if (resultInsert == 0) {
                 responseModel = new ResponseModel(MessageStringResponse.ERROR,
-                        "Failed to init code verification", null);
+                        MessageStringResponse.INIT_VERIFY_CODE_FAILED, null);
                 return ResponseEntity.badRequest().body(responseModel);
             }
 
+            // List of parameters in html file
             Map<String, String> model = Map.of("code", code, "name", name);
 
-            Template t = config.getTemplate("welcome.ftl");
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-
-//        message.setFrom(from);
-//        message.setRecipients(Message.RecipientType.TO, to);
-//        message.setSubject(mailStructure.getSubject(), "UTF-8");
-//
-//        Multipart mp = new MimeMultipart();
-//        MimeBodyPart htmlPart = new MimeBodyPart();
-//        htmlPart.setContent(mailStructure.getContent(), "text/html");
-//        mp.addBodyPart(htmlPart);
-//
-//        message.setContent(mp);
-//        mailSender.send(message);
+            // Get html file
+            String html = getBodyMail("welcome.ftl", model);
 
             helper.setTo(mailStructure.getTo());
             helper.setText(html, true);
@@ -162,7 +155,7 @@ public class MailServiceImpl implements MailService  {
             return ResponseEntity.ok().body(responseModel);
         } catch (MessagingException | IOException | TemplateException e) {
             responseModel = new ResponseModel(MessageStringResponse.ERROR,
-                    "Failed to init code verification", null);
+                    MessageStringResponse.INIT_VERIFY_CODE_FAILED, null);
             return ResponseEntity.badRequest().body(responseModel);
         } catch (CodeVerificationException e) {
             throw new RuntimeException(e);
@@ -174,7 +167,7 @@ public class MailServiceImpl implements MailService  {
         // Get code from table code_verification
         String code = codeVerificationService.getCodeVerification(request.getEmail());
 
-        if (code == null || code == "" || code.isEmpty()) {
+        if (code == null || code.isEmpty()) {
             return ResponseEntity.badRequest().body(new ResponseModel(MessageStringResponse.ERROR, "Code is expired", null));
         }
 

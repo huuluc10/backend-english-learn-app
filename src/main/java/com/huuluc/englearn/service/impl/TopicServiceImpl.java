@@ -33,16 +33,25 @@ public class TopicServiceImpl implements TopicService {
     public ResponseEntity<ResponseModel> getAllByUser(GetHistoryLearnRequest request) throws TopicException {
         List<Topic> topics = topicRepository.getAll();
         List<HistoryLearnTopicResponse> historyLearnTopicResponses = new ArrayList<>();
+        ResponseModel responseModel;
 
         // add get success rate for each topic
         for (Topic topic : topics) {
             request.setTopicId(topic.getTopicId());
-            float successRate = (float) getSuccessRate(request).getBody().getData();
+            responseModel = getSuccessRate(request).getBody();
+
+            if (responseModel == null) {
+                responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                        MessageStringResponse.GET_SUCCESS_RATE_SUCCESSFULLY, 0);
+                return new ResponseEntity<>(responseModel, HttpStatus.OK);
+            }
+
+            float successRate = (float) responseModel.getData();
             HistoryLearnTopicResponse response = new HistoryLearnTopicResponse(topic, successRate);
             historyLearnTopicResponses.add(response);
         }
 
-        ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+       responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
                 MessageStringResponse.GET_ALL_TOPICS_SUCCESSFULLY, historyLearnTopicResponses);
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }

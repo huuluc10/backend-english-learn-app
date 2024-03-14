@@ -35,36 +35,20 @@ public class StorageController {
         if (file == null)
             return ResponseEntity.notFound().build();
 
-        String mimeType;
-
-        try {
-            mimeType = Files.probeContentType(Paths.get(file.getURI()));
-        } catch (IOException e) {
-            mimeType = "application/octet-stream";
-        }
-
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(mimeType))
+                .contentType(MediaType.parseMediaType(getMimeType(file)))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
                 .body(FileUtils.readFileToByteArray(file.getFile()));
     }
 
-//    @PostMapping("/")
-//    @Operation(summary = "Upload file")
-//    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-//                                   RedirectAttributes redirectAttributes) {
-//
-//        String url = storageService.store(file);
-//
-//        if (url != null) {
-//            redirectAttributes.addFlashAttribute("message",
-//                    "You successfully uploaded " + file.getOriginalFilename() + "!");
-//            //get file path file
-//            String filePath = storageService.load(file.getOriginalFilename()).toString();
-//            redirectAttributes.addFlashAttribute("filePath", filePath);
-//        }
-//        return "redirect:/";
-//    }
+    // Get mime type of file
+    private String getMimeType(Resource file) {
+        try {
+            return Files.probeContentType(Paths.get(file.getURI()));
+        } catch (IOException e) {
+            return "application/octet-stream";
+        }
+    }
 
     @PostMapping("/getfile")
     @Operation(summary = "Get file")
@@ -81,17 +65,10 @@ public class StorageController {
             return ResponseEntity.notFound().build();
         }
 
-        String mimeType;
-
-        try {
-            mimeType = Files.probeContentType(Paths.get(file.getURI()));
-        } catch (IOException e) {
-            mimeType = "application/octet-stream";
-        }
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
-                .body(FileUtils.readFileToByteArray(file.getFile()));
+                .contentType(MediaType.parseMediaType(getMimeType(file))) // Set content type
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"") // Set header
+                .body(FileUtils.readFileToByteArray(file.getFile()));  // Set body
     }
 }

@@ -1,7 +1,6 @@
 package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.ExamException;
-import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.Exam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;

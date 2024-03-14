@@ -1,13 +1,10 @@
 package com.huuluc.englearn.mapper;
 
 
-import com.huuluc.englearn.exception.QuestionException;
 import com.huuluc.englearn.exception.UserQuestionException;
-import com.huuluc.englearn.model.Question;
 import com.huuluc.englearn.model.UserQuestion;
 import com.huuluc.englearn.model.request.AnswerQuestionRequest;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.StatementType;
 
 import java.util.List;
 

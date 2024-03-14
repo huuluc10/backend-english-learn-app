@@ -1,7 +1,6 @@
 package com.huuluc.englearn.repository;
 
 import com.huuluc.englearn.exception.ExamException;
-import com.huuluc.englearn.exception.UserQuestionException;
 import com.huuluc.englearn.model.Exam;
 import com.huuluc.englearn.mapper.ExamMapper;
 import lombok.RequiredArgsConstructor;

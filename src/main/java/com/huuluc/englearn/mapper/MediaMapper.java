@@ -1,12 +1,10 @@
 package com.huuluc.englearn.mapper;
 
 import com.huuluc.englearn.exception.MediaException;
-import com.huuluc.englearn.exception.StorageException;
 import com.huuluc.englearn.model.Media;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 

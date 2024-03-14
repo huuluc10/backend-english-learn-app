@@ -15,6 +15,6 @@ public interface QuestionMapper {
     @Select("SELECT * FROM question WHERE lesson_id = #{lessonId} AND belong_to = 'LESSON'")
     List<Question> findByLessonId(short lessonId) throws QuestionException;
 
-    @Select("SELECT * FROM question WHERE exam_id = #{exam_id} AND belong_to = 'EXAM'")
-    List<Question> findByExamId(short exam_id) throws QuestionException;
+    @Select("SELECT * FROM question WHERE exam_id = #{examId} AND belong_to = 'EXAM'")
+    List<Question> findByExamId(short examId) throws QuestionException;
 }
