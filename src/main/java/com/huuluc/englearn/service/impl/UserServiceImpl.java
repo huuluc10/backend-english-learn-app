@@ -5,20 +5,15 @@ import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.*;
 import com.huuluc.englearn.model.Level;
 import com.huuluc.englearn.model.Media;
-import com.huuluc.englearn.model.Role;
 import com.huuluc.englearn.model.User;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.model.response.UserInfoResponse;
-import com.huuluc.englearn.repository.RoleRepository;
 import com.huuluc.englearn.repository.UserMissionRepository;
 import com.huuluc.englearn.repository.UserRepository;
 import com.huuluc.englearn.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -28,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final MediaService mediaService;
     private final LevelService levelService;
     private final StorageService storageService;
@@ -100,6 +94,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<ResponseModel> createUser(SignupRequest request) throws UserException {
         // Create a new user object
+        User user = createObjectUser(request);
+
+        ResponseModel responseModel;
+
+        // Check if the response is successful
+        if (userRepository.insertUser(user) == 1) { // If user is created successfully
+           responseModel = new ResponseModel(MessageStringResponse.SUCCESS, MessageStringResponse.SIGNUP_SUCCESSFULLY, null);
+            return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
+        } else {  // If user is not created successfully
+            throw new UserException(MessageStringResponse.SIGNUP_FAILED);
+        }
+    }
+
+    private static User createObjectUser(SignupRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
@@ -116,16 +124,7 @@ public class UserServiceImpl implements UserService {
         } else { // If user is female
             user.setAvatar((short) 3);
         }
-
-        ResponseModel responseModel;
-
-        // Check if the response is successful
-        if (userRepository.insertUser(user) == 1) { // If user is created successfully
-           responseModel = new ResponseModel(MessageStringResponse.SUCCESS, MessageStringResponse.SIGNUP_SUCCESSFULLY, null);
-            return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
-        } else {  // If user is not created successfully
-            throw new UserException(MessageStringResponse.SIGNUP_FAILED);
-        }
+        return user;
     }
 
     @Override
@@ -270,5 +269,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserException(MessageStringResponse.CHANGE_PASSWORD_FAILED);
         }
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> getStreak(String username) throws UserException {
+        ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
+                MessageStringResponse.GET_STREAK_SUCCESSFULLY, userRepository.getStreak(username));
+        return ResponseEntity.ok(responseModel);
     }
 }
