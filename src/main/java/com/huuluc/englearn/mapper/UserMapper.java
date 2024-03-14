@@ -47,6 +47,9 @@ public interface UserMapper {
     @Select("SELECT 1 FROM user WHERE username = #{username} LIMIT 1")
     Optional<Boolean> existsByUsername(String username) throws UserException;
 
+    @Select("SELECT 1 FROM user WHERE email = #{email} LIMIT 1")
+    Optional<Boolean> existsByEmail(String email) throws UserException;
+
     @Update("UPDATE user SET email = #{email} WHERE username = #{username}")
     int addEmail(AddEmailRequest request) throws UserException;
 
