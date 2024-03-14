@@ -26,6 +26,8 @@ public interface UserService {
 
     boolean existsByUsername(String username) throws UserException;
 
+    boolean existsByEmail(String email) throws UserException;
+
     ResponseEntity<ResponseModel> addEmail(AddEmailRequest request) throws UserException;
 
     ResponseEntity<ResponseModel> resetPassword(ResetPasswordRequest request) throws UserException;

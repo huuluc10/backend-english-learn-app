@@ -1,6 +1,7 @@
 package com.huuluc.englearn.service;
 
 import com.huuluc.englearn.exception.CodeVerificationException;
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.MailStructure;
 import com.huuluc.englearn.model.request.VerifyCodeRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
@@ -12,9 +13,9 @@ import java.io.IOException;
 
 public interface MailService {
 
-    ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws MessagingException, IOException, TemplateException;
+    ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws MessagingException, IOException, TemplateException, UserException;
 
-    ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws MessagingException, IOException, TemplateException, CodeVerificationException;
+    ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws MessagingException, IOException, TemplateException, CodeVerificationException, UserException;
 
     ResponseEntity<ResponseModel> verifyCode(VerifyCodeRequest request) throws CodeVerificationException;
 

@@ -62,6 +62,10 @@ public class UserRepository {
         return userMapper.existsByUsername(username).isPresent();
     }
 
+    public boolean existsByEmail(String email) throws UserException {
+        return userMapper.existsByEmail(email).isPresent();
+    }
+
     public int addEmail(AddEmailRequest request) throws UserException {
         return userMapper.addEmail(request);
     }

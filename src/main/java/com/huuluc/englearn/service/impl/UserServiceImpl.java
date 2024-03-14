@@ -232,6 +232,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsByEmail(String email) throws UserException {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public ResponseEntity<ResponseModel> addEmail(AddEmailRequest request) throws UserException {
         User user = userRepository.getByUsername(request.getUsername());
         if (user == null) {

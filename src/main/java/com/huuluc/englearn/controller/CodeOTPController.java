@@ -1,6 +1,7 @@
 package com.huuluc.englearn.controller;
 
 import com.huuluc.englearn.exception.CodeVerificationException;
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.MailStructure;
 import com.huuluc.englearn.model.request.AddEmailRequest;
 import com.huuluc.englearn.model.request.VerifyCodeRequest;
@@ -27,7 +28,7 @@ public class CodeOTPController {
 
     @PostMapping("/addEmail")
     @Operation(summary = "Sent code to email when user add email")
-    public ResponseEntity<ResponseModel> sendMail(@RequestBody AddEmailRequest request) throws MessagingException, TemplateException, IOException {
+    public ResponseEntity<ResponseModel> sendMail(@RequestBody AddEmailRequest request) throws MessagingException, TemplateException, IOException, UserException {
         MailStructure mailStructure = new MailStructure(request.getEmail(),"Chào mừng bạn đã đến với EngLearn App");
 
         return service.addEmail(mailStructure, request.getUsername());
@@ -41,11 +42,10 @@ public class CodeOTPController {
     }
 
     @PostMapping("/forgot-password/{email}")
-    public String forgotPassword(@PathVariable String email) throws MessagingException, TemplateException, IOException, CodeVerificationException {
+    public ResponseEntity<ResponseModel> forgotPassword(@PathVariable String email) throws MessagingException, TemplateException, IOException, CodeVerificationException, UserException {
         MailStructure mailStructure = new MailStructure(email,"Khôi phục mật khẩu");
-        service.forgotPassword(mailStructure);
         log.info("Mail sent to reset password");
-        return "Mail sent";
+        return service.forgotPassword(mailStructure);
     }
 
 }

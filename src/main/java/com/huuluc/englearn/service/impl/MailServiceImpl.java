@@ -1,12 +1,14 @@
 package com.huuluc.englearn.service.impl;
 
 import com.huuluc.englearn.exception.CodeVerificationException;
+import com.huuluc.englearn.exception.UserException;
 import com.huuluc.englearn.model.CodeVerification;
 import com.huuluc.englearn.model.MailStructure;
 import com.huuluc.englearn.model.request.VerifyCodeRequest;
 import com.huuluc.englearn.model.response.ResponseModel;
 import com.huuluc.englearn.service.CodeVerificationService;
 import com.huuluc.englearn.service.MailService;
+import com.huuluc.englearn.service.UserService;
 import com.huuluc.englearn.utils.MessageStringResponse;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -14,6 +16,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -33,6 +36,7 @@ public class MailServiceImpl implements MailService  {
 
     private final JavaMailSender mailSender;
     private final CodeVerificationService codeVerificationService;
+    private final UserService userService;
     private final Configuration config;
 
     @Value("${spring.mail.username}")
@@ -48,8 +52,13 @@ public class MailServiceImpl implements MailService  {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws MessagingException, IOException, TemplateException, CodeVerificationException {
+    public ResponseEntity<ResponseModel> forgotPassword(MailStructure mailStructure) throws MessagingException, IOException, TemplateException, CodeVerificationException, UserException {
         ResponseModel responseModel;
+
+        if (!userService.existsByEmail(mailStructure.getTo())) {
+            responseModel = new ResponseModel(MessageStringResponse.ERROR, "Email not found", null);
+            return new ResponseEntity<>(responseModel, HttpStatus.NOT_FOUND);
+        }
 
         try {
             String code = generateCode();
@@ -95,8 +104,14 @@ public class MailServiceImpl implements MailService  {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws MessagingException, IOException, TemplateException {
+    public ResponseEntity<ResponseModel> addEmail(MailStructure mailStructure, String name) throws MessagingException, IOException, TemplateException, UserException {
         ResponseModel responseModel;
+
+        if (userService.existsByEmail(mailStructure.getTo())) {
+            responseModel = new ResponseModel(MessageStringResponse.ERROR, "Email already exists", null);
+            return ResponseEntity.badRequest().body(responseModel);
+        }
+
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
