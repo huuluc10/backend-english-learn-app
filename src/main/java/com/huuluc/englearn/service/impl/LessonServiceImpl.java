@@ -46,11 +46,11 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> findByTopicId(short topicId) throws LessonException {
-        List<Lesson> lessonList = lessonRepository.findByTopicId(topicId);
+    public ResponseEntity<ResponseModel> getSummaryOfTopic(short topicId) throws LessonException {
+        List<Lesson> lessonList = lessonRepository.getSummaryOfTopic(topicId);
 
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get lessons by topic id successfully", lessonList);
+                "Get summary lesson of topic successfully", lessonList);
         return ResponseEntity.ok(responseModel);
     }
 

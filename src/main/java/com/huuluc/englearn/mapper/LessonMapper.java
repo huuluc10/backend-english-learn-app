@@ -3,8 +3,12 @@ package com.huuluc.englearn.mapper;
 import com.huuluc.englearn.exception.LessonException;
 import com.huuluc.englearn.model.Lesson;
 import com.huuluc.englearn.model.response.LessonResponse;
+import com.huuluc.englearn.model.response.SummaryOfTopic;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.mapping.StatementType;
 
 import java.util.List;
 
@@ -16,8 +20,11 @@ public interface LessonMapper {
     @Select("SELECT * FROM lesson WHERE lesson_id = #{lessonId}")
     Lesson findById(short lessonId) throws LessonException;
 
-    @Select("SELECT * FROM lesson WHERE topic_id = #{topicId}")
-    List<Lesson> findByTopicId(short topicId) throws LessonException;
+
+    @Select(value= "{ CALL getSummaryLessonOfTopic(#{username}, #{topicId}) }")
+    @Options(statementType = StatementType.CALLABLE)
+    @ResultType(SummaryOfTopic.class)
+    List<Lesson> getSummaryOfTopic(short topicId) throws LessonException;
 
     @Select("SELECT * FROM lesson WHERE level_id = #{levelId}")
     List<Lesson> findByLevelId(short levelId) throws LessonException;

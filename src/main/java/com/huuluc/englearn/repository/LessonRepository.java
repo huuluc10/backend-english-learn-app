@@ -22,8 +22,8 @@ public class LessonRepository {
         return lessonMapper.findById(lessonId);
     }
 
-    public List<Lesson> findByTopicId(short topicId) throws LessonException {
-        return lessonMapper.findByTopicId(topicId);
+    public List<Lesson> getSummaryOfTopic(short topicId) throws LessonException {
+        return lessonMapper.getSummaryOfTopic(topicId);
     }
 
     public List<Lesson> findByLevelId(short levelId) throws LessonException {

@@ -12,7 +12,7 @@ public interface LessonService {
 
     ResponseEntity<ResponseModel> findById(short lessonId) throws LessonException;
 
-    ResponseEntity<ResponseModel> findByTopicId(short topicId) throws LessonException;
+    ResponseEntity<ResponseModel> getSummaryOfTopic(short topicId) throws LessonException;
 
     ResponseEntity<ResponseModel> findByLevelId(short levelId) throws LessonException;
 
