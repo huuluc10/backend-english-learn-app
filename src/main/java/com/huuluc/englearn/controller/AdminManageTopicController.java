@@ -24,6 +24,8 @@ public class AdminManageTopicController {
     @Operation(summary = "Get all topics")
     public ResponseEntity<ResponseModel> getAll() throws TopicException {
         log.info("Admin: Get all topics");
+
+
         return topicService.getAll();
     }
 }

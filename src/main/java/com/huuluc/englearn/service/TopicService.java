@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface TopicService {
     ResponseEntity<ResponseModel> getAll() throws TopicException;
-    ResponseEntity<ResponseModel> getAllByUser(GetHistoryLearnRequest request) throws TopicException;
+    ResponseEntity<ResponseModel> getAllByUser(String username) throws TopicException;
 
     ResponseEntity<ResponseModel> getSuccessRate(GetHistoryLearnRequest request) throws TopicException;
 }
