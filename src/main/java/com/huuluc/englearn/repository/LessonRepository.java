@@ -5,6 +5,7 @@ import com.huuluc.englearn.model.Lesson;
 import com.huuluc.englearn.mapper.LessonMapper;
 import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.LessonResponse;
+import com.huuluc.englearn.model.response.SummaryOfTopic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ public class LessonRepository {
         return lessonMapper.findById(lessonId);
     }
 
-    public List<Lesson> getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException {
+    public SummaryOfTopic getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException {
         return lessonMapper.getSummaryOfTopic(request);
     }
 

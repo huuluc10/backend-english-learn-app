@@ -25,7 +25,7 @@ public interface LessonMapper {
     @Select(value= "{ CALL getSummaryLessonOfTopic(#{username}, #{topicId}) }")
     @Options(statementType = StatementType.CALLABLE)
     @ResultType(SummaryOfTopic.class)
-    List<Lesson> getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException;
+    SummaryOfTopic getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException;
 
     @Select("SELECT * FROM lesson WHERE level_id = #{levelId}")
     List<Lesson> findByLevelId(short levelId) throws LessonException;

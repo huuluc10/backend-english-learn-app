@@ -1,5 +1,6 @@
 package com.huuluc.englearn.service.impl;
 
+import com.huuluc.englearn.model.response.SummaryOfTopic;
 import com.huuluc.englearn.utils.MessageStringResponse;
 import com.huuluc.englearn.exception.LessonException;
 import com.huuluc.englearn.exception.LevelException;
@@ -47,10 +48,10 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public ResponseEntity<ResponseModel> getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException {
-        List<Lesson> lessonList = lessonRepository.getSummaryOfTopic(request);
+        SummaryOfTopic lessonSummary = lessonRepository.getSummaryOfTopic(request);
 
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
-                "Get summary lesson of topic successfully", lessonList);
+                "Get summary lesson of topic successfully", lessonSummary);
         return ResponseEntity.ok(responseModel);
     }
 
