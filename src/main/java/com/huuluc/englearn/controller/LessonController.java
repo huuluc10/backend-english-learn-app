@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,14 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class LessonController {
     private final LessonService lessonService;
-    private final JwtUtils jwtUtils;
 
     @GetMapping("/topic")
     @Operation(summary = "Get list lesson by topic")
-    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(@RequestHeader("Authorization") String jwt,
-                                                                  @RequestParam short topicId) throws LessonException,
+    public ResponseEntity<ResponseModel> findByTopicIdAndUsername(@RequestParam short topicId) throws LessonException,
             MediaException, LevelException {
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
         log.info("Get list lesson by topic by username: {}", username);
         GetHistoryLearnRequest request = new GetHistoryLearnRequest(username, topicId);
         return lessonService.findByTopicIdAndUsername(request);
@@ -37,7 +39,11 @@ public class LessonController {
     @GetMapping("/topic/{topicId}")
     @Operation(summary = "Get summary lesson by topic")
     public ResponseEntity<ResponseModel> getSummaryOfTopic(@PathVariable short topicId) throws LessonException {
-        log.info("Get summary lesson by topic: {}", topicId);
-        return lessonService.getSummaryOfTopic(topicId);
+        //get username from token and check if it is the same as the username in the request
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
+        log.info("Get summary lesson by topic {} and username {}", topicId, username);
+        GetHistoryLearnRequest request = new GetHistoryLearnRequest(username, topicId);
+        return lessonService.getSummaryOfTopic(request);
     }
 }

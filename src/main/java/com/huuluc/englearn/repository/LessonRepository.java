@@ -3,6 +3,7 @@ package com.huuluc.englearn.repository;
 import com.huuluc.englearn.exception.LessonException;
 import com.huuluc.englearn.model.Lesson;
 import com.huuluc.englearn.mapper.LessonMapper;
+import com.huuluc.englearn.model.request.GetHistoryLearnRequest;
 import com.huuluc.englearn.model.response.LessonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,8 +23,8 @@ public class LessonRepository {
         return lessonMapper.findById(lessonId);
     }
 
-    public List<Lesson> getSummaryOfTopic(short topicId) throws LessonException {
-        return lessonMapper.getSummaryOfTopic(topicId);
+    public List<Lesson> getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException {
+        return lessonMapper.getSummaryOfTopic(request);
     }
 
     public List<Lesson> findByLevelId(short levelId) throws LessonException {

@@ -46,8 +46,8 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public ResponseEntity<ResponseModel> getSummaryOfTopic(short topicId) throws LessonException {
-        List<Lesson> lessonList = lessonRepository.getSummaryOfTopic(topicId);
+    public ResponseEntity<ResponseModel> getSummaryOfTopic(GetHistoryLearnRequest request) throws LessonException {
+        List<Lesson> lessonList = lessonRepository.getSummaryOfTopic(request);
 
         ResponseModel responseModel = new ResponseModel(MessageStringResponse.SUCCESS,
                 "Get summary lesson of topic successfully", lessonList);
